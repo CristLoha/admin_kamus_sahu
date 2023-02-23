@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "437159689669",
+    "project_id": "kamussahutalai",
+    "storage_bucket": "kamussahutalai.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:437159689669:android:3459c172b3fc2eb22d1fac",
+        "android_client_info": {
+          "package_name": "com.example.admin_kamus_sahu"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "437159689669-re07sndfchr9jgqivpkevc1af6514rbj.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAtfNXh9sAYXkUgHaQig-su6rxjG2uN_LE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "437159689669-re07sndfchr9jgqivpkevc1af6514rbj.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
