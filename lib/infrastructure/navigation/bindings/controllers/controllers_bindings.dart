@@ -1,0 +1,1 @@
+export 'package:admin_kamus_sahu/infrastructure/navigation/bindings/controllers/home.controller.binding.dart'; 
