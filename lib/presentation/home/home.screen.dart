@@ -13,7 +13,7 @@ class HomeScreen extends GetView<HomeController> {
         title: const Text('HomeScreen'),
         centerTitle: true,
       ),
-      body: Center(
+      body: const Center(
         child: Text(
           'HomeScreen is working',
           style: TextStyle(fontSize: 20),
