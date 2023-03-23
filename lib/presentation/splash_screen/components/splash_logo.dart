@@ -7,8 +7,11 @@ class SplashLogo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Image(
-      image: AssetImage(ImgString.logoSahu),
+    return Center(
+      child: Image(
+        image: AssetImage(ImgString.logoSahu),
+        width: 154,
+      ),
     );
   }
 }
