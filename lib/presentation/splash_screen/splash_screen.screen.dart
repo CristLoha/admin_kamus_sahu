@@ -16,9 +16,9 @@ class SplashScreenScreen extends GetView<SplashScreenController> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         281.heightBox,
-        SplashLogo(),
-        291.heightBox,
-        FooterSplash(),
+        const SplashLogo(),
+        280.heightBox,
+        const FooterSplash(),
       ],
     ));
   }
