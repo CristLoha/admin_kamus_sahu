@@ -1,23 +1,12 @@
+import 'package:admin_kamus_sahu/infrastructure/navigation/routes.dart';
 import 'package:get/get.dart';
 
 class SplashScreenController extends GetxController {
-  //TODO: Implement SplashScreenController
-
-  final count = 0.obs;
-  @override
-  void onInit() {
-    super.onInit();
-  }
-
   @override
   void onReady() {
     super.onReady();
+    Future.delayed(const Duration(seconds: 3), () {
+      Get.offAllNamed(Routes.home);
+    });
   }
-
-  @override
-  void onClose() {
-    super.onClose();
-  }
-
-  void increment() => count.value++;
 }

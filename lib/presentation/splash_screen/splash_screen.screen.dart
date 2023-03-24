@@ -12,14 +12,20 @@ class SplashScreenScreen extends GetView<SplashScreenController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        281.heightBox,
-        const SplashLogo(),
-        280.heightBox,
-        const FooterSplash(),
-      ],
+        body: GetBuilder<SplashScreenController>(
+      init: SplashScreenController(),
+      initState: (_) {},
+      builder: (_) {
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            281.heightBox,
+            const SplashLogo(),
+            350.heightBox,
+            const FooterSplash(),
+          ],
+        );
+      },
     ));
   }
 }

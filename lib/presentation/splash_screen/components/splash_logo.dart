@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../utils/extension/img_string.dart';
 
@@ -9,8 +10,8 @@ class SplashLogo extends StatelessWidget {
   Widget build(BuildContext context) {
     return Center(
       child: Image(
-        image: AssetImage(ImgString.logoSahu),
-        width: 154,
+        image: const AssetImage(ImgString.logoSahu),
+        width: 154.w,
       ),
     );
   }
