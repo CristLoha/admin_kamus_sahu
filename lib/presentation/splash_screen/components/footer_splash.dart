@@ -14,7 +14,7 @@ class FooterSplash extends StatelessWidget {
           alignment: Alignment.bottomCenter,
           child: Text(
             'Admin',
-            style: greyTextStyle.copyWith(
+            style: darkGrayTextStyle.copyWith(
               fontWeight: medium,
             ),
           ),
@@ -23,7 +23,7 @@ class FooterSplash extends StatelessWidget {
           alignment: Alignment.bottomCenter,
           child: Text(
             'Version 1.0',
-            style: greyTextStyle2.copyWith(
+            style: lightGrayTextStyle.copyWith(
               fontSize: 10,
               fontWeight: medium,
             ),

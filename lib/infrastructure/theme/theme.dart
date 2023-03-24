@@ -9,14 +9,14 @@ const Color darkBlue = Color(0xFF14193F);
 const Color lightGrey = Color(0xFFE8F0FA);
 const Color red = Color(0xFFCB0000);
 
-TextStyle blueDarkTextStyle = GoogleFonts.poppins(
+TextStyle darkBlueTextStyle = GoogleFonts.poppins(
   color: darkBlue,
 );
 
-TextStyle greyTextStyle = GoogleFonts.poppins(
+TextStyle darkGrayTextStyle = GoogleFonts.poppins(
   color: darkGray,
 );
-TextStyle greyTextStyle2 = GoogleFonts.poppins(
+TextStyle lightGrayTextStyle = GoogleFonts.poppins(
   color: lightGray,
 );
 

@@ -21,7 +21,7 @@ class HeaderLogin extends StatelessWidget {
         70.heightBox,
         Text(
           'Silahkan Isi Email dan\nKata Sandi',
-          style: blueDarkTextStyle.copyWith(
+          style: darkBlueTextStyle.copyWith(
             fontSize: 20,
             fontWeight: semiBold,
           ),
