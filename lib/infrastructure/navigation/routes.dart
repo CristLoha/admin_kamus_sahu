@@ -1,9 +1,9 @@
 class Routes {
   static Future<String> get initialRoute async {
-    // TODO: implement method
-    return splash_screen;
+    return splashScreen;
   }
 
   static const home = '/home';
-  static const splash_screen = '/splash-screen';
+  static const splashScreen = '/splash-screen';
+  static const login = '/login';
 }

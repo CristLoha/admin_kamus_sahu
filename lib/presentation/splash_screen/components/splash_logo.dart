@@ -11,7 +11,7 @@ class SplashLogo extends StatelessWidget {
     return Center(
       child: Image(
         image: const AssetImage(ImgString.logoSahu),
-        width: 154.w,
+        width: 158.w,
       ),
     );
   }

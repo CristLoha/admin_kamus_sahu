@@ -1,4 +1,5 @@
-import 'package:admin_kamus_sahu/presentation/splash_screen/controllers/footer_splash.dart';
+import 'package:admin_kamus_sahu/presentation/splash_screen/components/footer_splash.dart';
+import 'package:admin_kamus_sahu/presentation/splash_screen/components/loading_splash.dart';
 import 'package:admin_kamus_sahu/utils/extension/box_extension.dart';
 import 'package:flutter/material.dart';
 
@@ -14,14 +15,14 @@ class SplashScreenScreen extends GetView<SplashScreenController> {
     return Scaffold(
         body: GetBuilder<SplashScreenController>(
       init: SplashScreenController(),
-      initState: (_) {},
       builder: (_) {
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            281.heightBox,
+            270.heightBox,
             const SplashLogo(),
-            350.heightBox,
+            const SplashLoading(),
+            180.heightBox,
             const FooterSplash(),
           ],
         );

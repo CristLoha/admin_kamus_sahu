@@ -5,8 +5,8 @@ class SplashScreenController extends GetxController {
   @override
   void onReady() {
     super.onReady();
-    Future.delayed(const Duration(seconds: 3), () {
-      Get.offAllNamed(Routes.home);
+    Future.delayed(const Duration(seconds: 4), () {
+      Get.offAllNamed(Routes.login);
     });
   }
 }
