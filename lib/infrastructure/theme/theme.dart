@@ -3,7 +3,10 @@ import 'package:google_fonts/google_fonts.dart';
 
 const Color darkGray = Color(0xFF828282);
 const Color shamrockGreen = Color(0xFF34BF4A);
+const Color darkGreen = Color(0xff358D54);
 const Color lightGray = Color(0xFFC9C4C4);
+const Color vividYellow = Color(0xffF5C300);
+
 const Color white = Color(0xFFFFFFFF);
 const Color offWhite = Color(0xffF6F8FB);
 const Color darkBlue = Color(0xFF14193F);
