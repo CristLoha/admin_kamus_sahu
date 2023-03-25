@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 const Color darkGray = Color(0xFF828282);
+const Color shamrockGreen = Color(0xFF34BF4A);
 const Color lightGray = Color(0xFFC9C4C4);
 const Color white = Color(0xFFFFFFFF);
 const Color offWhite = Color(0xffF6F8FB);
@@ -19,6 +20,10 @@ TextStyle darkGrayTextStyle = GoogleFonts.poppins(
 );
 TextStyle lightGrayTextStyle = GoogleFonts.poppins(
   color: lightGray,
+);
+
+TextStyle whiteTextStyle = GoogleFonts.poppins(
+  color: white,
 );
 
 FontWeight light = FontWeight.w300;

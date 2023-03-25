@@ -22,7 +22,6 @@ class SplashScreenScreen extends GetView<SplashScreenController> {
             260.heightBox,
             const SplashLogo(),
             const SplashLoading(),
-            // 166.heightBox,
             const FooterSplash(),
           ],
         );
