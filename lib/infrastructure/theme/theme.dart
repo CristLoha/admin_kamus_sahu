@@ -7,6 +7,7 @@ const Color white = Color(0xFFFFFFFF);
 const Color offWhite = Color(0xffF6F8FB);
 const Color darkBlue = Color(0xFF14193F);
 const Color lightGrey = Color(0xFFE8F0FA);
+const Color whisper = Color(0xffEFEEF1);
 const Color red = Color(0xFFCB0000);
 
 TextStyle darkBlueTextStyle = GoogleFonts.poppins(

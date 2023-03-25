@@ -1,4 +1,6 @@
+import 'package:admin_kamus_sahu/utils/extension/box_extension.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../infrastructure/theme/theme.dart';
 
@@ -24,11 +26,12 @@ class FooterSplash extends StatelessWidget {
           child: Text(
             'Version 1.0',
             style: lightGrayTextStyle.copyWith(
-              fontSize: 10,
+              fontSize: 10.sp,
               fontWeight: medium,
             ),
           ),
         ),
+        25.heightBox,
       ],
     );
   }

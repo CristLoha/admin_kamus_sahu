@@ -9,11 +9,13 @@ class SplashLoading extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: SizedBox(
-        width: Get.width * 0.5.w,
-        height: Get.width * 0.5.h,
-        child: Lottie.asset(LottieString.loading),
+    return Expanded(
+      child: Center(
+        child: SizedBox(
+          width: Get.width * 0.5.w,
+          height: Get.width * 0.5.h,
+          child: Lottie.asset(LottieString.loading),
+        ),
       ),
     );
   }

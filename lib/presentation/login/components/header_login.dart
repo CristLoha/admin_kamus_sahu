@@ -16,13 +16,14 @@ class HeaderLogin extends StatelessWidget {
           child: Image.asset(
             ImgString.logoSahu,
             width: 154.w,
+            height: 60.h,
           ),
         ),
         70.heightBox,
         Text(
           'Silahkan Isi Email dan\nKata Sandi',
           style: darkBlueTextStyle.copyWith(
-            fontSize: 20,
+            fontSize: 20.sp,
             fontWeight: semiBold,
           ),
         ),

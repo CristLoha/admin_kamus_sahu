@@ -9,14 +9,15 @@ class FormLogin extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: 327.w,
-      height: 317.h,
+      height: double.infinity,
       decoration: const BoxDecoration(
-          color: white,
-          borderRadius: BorderRadius.all(
-            Radius.circular(
-              20,
-            ),
-          )),
+        color: white,
+        borderRadius: BorderRadius.all(
+          Radius.circular(
+            20,
+          ),
+        ),
+      ),
       child: Column(
         children: [],
       ),
