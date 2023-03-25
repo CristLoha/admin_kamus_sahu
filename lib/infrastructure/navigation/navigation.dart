@@ -41,5 +41,15 @@ class Nav {
       page: () => const LoginScreen(),
       binding: LoginControllerBinding(),
     ),
+    GetPage(
+      name: Routes.TAMBAH_KATA,
+      page: () => const TambahKataScreen(),
+      binding: TambahKataControllerBinding(),
+    ),
+    GetPage(
+      name: Routes.TAMBAH_KATA,
+      page: () => const TambahKataScreen(),
+      binding: TambahKataControllerBinding(),
+    ),
   ];
 }

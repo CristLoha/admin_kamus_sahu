@@ -25,12 +25,12 @@ class HomeMenu extends StatelessWidget {
         14.heightBox,
         Expanded(
           child: GridView.builder(
-            padding: EdgeInsets.symmetric(horizontal: 24),
+            padding: const EdgeInsets.only(left: 24, right: 24, bottom: 90),
             itemCount: 8,
             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 2,
-              mainAxisSpacing: 20,
-              crossAxisSpacing: 20,
+              mainAxisSpacing: 18,
+              crossAxisSpacing: 18,
             ),
             itemBuilder: (context, index) {
               late String title;
@@ -103,12 +103,12 @@ class HomeMenu extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       SizedBox(
-                          width: 40.w, height: 40.h, child: Image.asset(image)),
+                          width: 45.w, height: 45.h, child: Image.asset(image)),
                       10.heightBox,
                       Text(
                         title,
                         style: darkBlueTextStyle.copyWith(
-                          fontSize: 16.sp,
+                          fontSize: 18.sp,
                           fontWeight: medium,
                         ),
                       ),
