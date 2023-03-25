@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
+import '../../../infrastructure/navigation/routes.dart';
 import '../../../widgets/app_button.dart';
 import '../../../widgets/app_input.dart';
 import '../../../widgets/title_input.dart';
@@ -39,7 +40,7 @@ class FormLogin extends StatelessWidget {
             AppInput(controller: c.passC),
             60.heightBox,
             AppButton(
-              onPressed: () {},
+              onPressed: () => Get.offAllNamed(Routes.home),
               text: 'Masuk',
             ),
           ],
