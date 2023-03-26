@@ -5,6 +5,7 @@ const Color darkGray = Color(0xFF828282);
 const Color shamrockGreen = Color(0xFF34BF4A);
 const Color darkGreen = Color(0xff358D54);
 const Color lightGray = Color(0xFFC9C4C4);
+const Color slateGrey = Color(0xff9698A9);
 const Color vividYellow = Color(0xffF5C300);
 
 const Color white = Color(0xFFFFFFFF);

@@ -42,12 +42,12 @@ class Nav {
       binding: LoginControllerBinding(),
     ),
     GetPage(
-      name: Routes.TAMBAH_KATA,
+      name: Routes.tambahKata,
       page: () => const TambahKataScreen(),
       binding: TambahKataControllerBinding(),
     ),
     GetPage(
-      name: Routes.TAMBAH_KATA,
+      name: Routes.tambahKata,
       page: () => const TambahKataScreen(),
       binding: TambahKataControllerBinding(),
     ),

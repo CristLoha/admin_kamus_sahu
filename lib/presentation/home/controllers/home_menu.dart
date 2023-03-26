@@ -4,6 +4,8 @@ import 'package:admin_kamus_sahu/utils/extension/img_string.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../components/title_heading.dart';
+
 class HomeMenu extends StatelessWidget {
   const HomeMenu({Key? key}) : super(key: key);
 
@@ -12,8 +14,10 @@ class HomeMenu extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+        const TitleHeadingHome(),
+        30.heightBox,
         Padding(
-          padding: EdgeInsets.only(top: 44.h, left: 24.w),
+          padding: EdgeInsets.only(left: 24.w),
           child: Text(
             'Kategori',
             style: darkBlueTextStyle.copyWith(
