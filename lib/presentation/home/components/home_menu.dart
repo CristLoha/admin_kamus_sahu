@@ -4,7 +4,7 @@ import 'package:admin_kamus_sahu/utils/extension/img_string.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../components/title_heading.dart';
+import 'title_heading.dart';
 
 class HomeMenu extends StatelessWidget {
   const HomeMenu({Key? key}) : super(key: key);

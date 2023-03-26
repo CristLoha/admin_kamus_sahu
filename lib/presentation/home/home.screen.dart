@@ -1,9 +1,10 @@
+import 'package:admin_kamus_sahu/infrastructure/navigation/routes.dart';
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../infrastructure/theme/theme.dart';
 import 'controllers/home.controller.dart';
-import 'controllers/home_menu.dart';
+import 'components/home_menu.dart';
 
 class HomeScreen extends GetView<HomeController> {
   const HomeScreen({Key? key}) : super(key: key);
@@ -36,11 +37,11 @@ class HomeScreen extends GetView<HomeController> {
               ],
             ),
             floatingActionButton: FloatingActionButton(
-              onPressed: () {},
+              onPressed: () => Get.toNamed(Routes.tambahKata),
               backgroundColor: vividYellow,
               child: const Icon(Icons.add),
             ),
-            body: HomeMenu());
+            body: const HomeMenu());
       },
     );
   }
