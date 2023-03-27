@@ -7,6 +7,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
 import '../../infrastructure/theme/theme.dart';
+import '../../widgets/app_input.dart';
+import '../../widgets/title_input.dart';
 import 'controllers/tambah_kata.controller.dart';
 
 class TambahKataScreen extends GetView<TambahKataController> {
@@ -43,13 +45,36 @@ class TambahKataScreen extends GetView<TambahKataController> {
               child: Center(
                 child: Container(
                   width: 327.w,
-                  height: 520,
-                  decoration: BoxDecoration(
+                  height: 520.h,
+                  decoration: const BoxDecoration(
                     borderRadius: BorderRadius.all(Radius.circular(13)),
                     color: white,
                   ),
-                  child: Column(
-                    children: [],
+                  child: Padding(
+                    padding:
+                        const EdgeInsets.only(left: 22, right: 22, top: 22),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const TittleInput(
+                          text: 'Kata Sahu',
+                        ),
+                        8.heightBox,
+                        const AppInput(),
+                        16.heightBox,
+                        const TittleInput(
+                          text: 'Arti Bahasa Sahu',
+                        ),
+                        8.heightBox,
+                        const AppInput(),
+                        16.heightBox,
+                        const TittleInput(
+                          text: 'Contoh Kata Bahasa Sahu',
+                        ),
+                        8.heightBox,
+                        const AppInput(),
+                      ],
+                    ),
                   ),
                 ),
               ),
