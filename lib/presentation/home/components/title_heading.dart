@@ -18,7 +18,7 @@ class TitleHeadingHome extends StatelessWidget {
                 style: TextStyle(fontWeight: semiBold),
               ),
               TextSpan(
-                text: 'untuk melihat\ndaftar kata-kata.',
+                text: 'untuk melihat\ndaftar kata-kata',
                 style: TextStyle(fontWeight: light, color: slateGrey),
               ),
             ]),

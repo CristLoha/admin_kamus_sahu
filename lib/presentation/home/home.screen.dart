@@ -1,3 +1,4 @@
+import 'package:admin_kamus_sahu/app/controller/statusbar.controller.dart';
 import 'package:admin_kamus_sahu/infrastructure/navigation/routes.dart';
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
@@ -10,17 +11,17 @@ class HomeScreen extends GetView<HomeController> {
   const HomeScreen({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    return GetBuilder<HomeController>(
-      init: HomeController(),
+    return GetBuilder<StatusBarController>(
+      init: StatusBarController(),
       builder: (controller) {
         // Memanggil method changeStatusBarColor dan changeNavigationBarColor
         // pada saat widget dibuild untuk pertama kalinya
         controller.changeStatusBarColor(darkGreen);
-        controller.changeNavigationBarColor(Colors.white);
+        controller.changeNavigationBarColor(Colors.black);
         return Scaffold(
             backgroundColor: offWhite,
             appBar: AppBar(
-              backgroundColor: Colors.green,
+              backgroundColor: shamrockGreen,
               title: const Text('Kamus Bahasa Sahu'),
               centerTitle: true,
               leading: IconButton(
