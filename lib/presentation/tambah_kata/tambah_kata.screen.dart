@@ -15,15 +15,28 @@ class TambahKataScreen extends GetView<TambahKataController> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: offWhite,
+      appBar: AppBar(
+        elevation: 0,
+        backgroundColor: shamrockGreen,
+        title: Text(
+          'Tambah Kata',
+          style: whiteTextStyle.copyWith(
+            fontSize: 20,
+            fontWeight: semiBold,
+          ),
+        ),
+        centerTitle: true,
+        leading: IconButton(
+          icon: const Icon(EvaIcons.arrowIosBack),
+          onPressed: () => Get.back(),
+        ),
+      ),
       body: SafeArea(
         child: Stack(
           children: [
             Container(
               height: 240.w,
               color: shamrockGreen,
-              child: Row(
-                children: [],
-              ),
             ),
             Padding(
               padding: const EdgeInsets.all(8.0),
