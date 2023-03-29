@@ -8,4 +8,5 @@ class ImgString {
   static const String imgNumbers = 'assets/images/numbers.png';
   static const String imgBody = 'assets/images/body.png';
   static const String imgEntrance = 'assets/images/entrance.png';
+  static const String imgUpload = 'assets/images/upload.png';
 }

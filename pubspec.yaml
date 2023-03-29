@@ -8,7 +8,7 @@ environment:
 dependencies: 
   cupertino_icons: ^1.0.2
   get: 4.6.5
-  firebase_core: 2.7.0
+  firebase_core: 2.8.0
   cloud_firestore: 4.4.3
   google_fonts: 4.0.3
   flutter_screenutil: 5.7.0
@@ -16,6 +16,8 @@ dependencies:
   flutter_svg: 2.0.4
   flutter_statusbarcolor_ns: 0.5.0
   eva_icons_flutter: 3.1.0
+  file_picker: 5.2.6
+  firebase_storage: 11.0.16
   flutter: 
     sdk: flutter
 
