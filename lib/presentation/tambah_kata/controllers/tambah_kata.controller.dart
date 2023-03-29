@@ -1,42 +1,58 @@
 import 'dart:io';
-import 'package:firebase_storage/firebase_storage.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:file_picker/file_picker.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class TambahKataController extends GetxController {
-  final RxBool _isLoading = false.obs;
-  bool get isLoading => _isLoading.value;
+  File? _audioFile;
+  RxBool isSelected = false.obs;
 
-  Future<void> uploadAudio(File audioFile) async {
-    try {
-      _isLoading.value = true;
+  Future<void> pickAudio() async {
+    if (_audioFile != null) {
+      bool confirmReset = await Get.dialog<bool>(
+            AlertDialog(
+              title: Text('Reset audio?'),
+              content: Text(
+                  'Anda akan mengganti audio yang sudah dipilih sebelumnya. Anda yakin ingin melanjutkan?'),
+              actions: [
+                TextButton(
+                  onPressed: () => Get.back(result: false),
+                  child: Text('Batal'),
+                ),
+                TextButton(
+                  onPressed: () => Get.back(result: true),
+                  child: Text('Reset'),
+                ),
+              ],
+            ),
+          ) ??
+          false;
 
-      // Validasi jenis file audio yang diunggah
-      if (audioFile.path.endsWith('.mp3') || audioFile.path.endsWith('.wav')) {
-        // Membuat referensi ke Firebase Storage
-        final ref = FirebaseStorage.instance
-            .ref()
-            .child('audioPria')
-            .child('${DateTime.now().millisecondsSinceEpoch}.mp3');
+      if (!confirmReset) return;
+    }
 
-        // Upload file audio ke Firebase Storage
-        final uploadTask = ref.putFile(audioFile);
-        await uploadTask.whenComplete(() {});
+    FilePickerResult? result = await FilePicker.platform.pickFiles(
+      type: FileType.custom,
+      allowedExtensions: ['mp3', 'wav', 'm4a', 'aac', 'ogg'],
+    );
 
-        // Mendapatkan URL file yang diupload
-        final url = await ref.getDownloadURL();
-
-        // Menyimpan URL file ke Firestore
-        final docRef = FirebaseFirestore.instance.collection('audioPria').doc();
-        await docRef.set({'url': url});
-
-        Get.snackbar('Berhasil Mengunggah', 'Audio berhasil diunggah!');
-      } else {
-        throw 'Jenis file audio tidak didukung';
-      }
-    } catch (e) {
-      _isLoading.value = false;
-      Get.snackbar('Gagal Upload', 'Gagal mengupload audio: $e');
+    if (result != null) {
+      _audioFile = File(result.files.single.path!);
+      isSelected.value = true;
+      update();
     }
   }
+
+  void resetAudio() {
+    _audioFile = null;
+    isSelected.value = false;
+    update();
+  }
+
+  String get audioFileName =>
+      _audioFile != null ? _audioFile!.path.split('/').last : '';
+
+  String get audioFileSize => _audioFile != null
+      ? '${(_audioFile!.lengthSync() / 1024).toStringAsFixed(2)} KB'
+      : '';
 }
