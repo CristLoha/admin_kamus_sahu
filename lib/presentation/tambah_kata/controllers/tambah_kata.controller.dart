@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:admin_kamus_sahu/infrastructure/theme/theme.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -17,7 +18,42 @@ class TambahKataController extends GetxController {
       final fileSize = await file.length();
       const maxSize = 2 * 1024 * 1024; // maksimum ukuran file 2MB
       if (fileSize > maxSize) {
-        Get.snackbar('Error', 'File size cannot be larger than 2MB');
+        Get.snackbar(
+          'Terjadi Kesalahan',
+          'Ukuran file tidak boleh lebih dari 2MB',
+          backgroundColor: oldRose,
+          colorText: white,
+          snackPosition: SnackPosition.TOP,
+          margin: const EdgeInsets.all(0),
+          borderRadius: 0,
+          duration: const Duration(seconds: 4),
+          animationDuration: const Duration(milliseconds: 500),
+          reverseAnimationCurve: Curves.easeInBack,
+          isDismissible: true,
+          dismissDirection: DismissDirection.horizontal,
+          showProgressIndicator: false,
+          overlayBlur: 0.0,
+          overlayColor: darkBlue,
+          icon: const Icon(
+            Icons.error_outline,
+            color: white,
+          ),
+          shouldIconPulse: true,
+          leftBarIndicatorColor: oldRose,
+          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+          snackStyle: SnackStyle.FLOATING,
+          messageText: Text(
+            'Ukuran file tidak boleh lebih dari 2MB',
+            style: whiteTextStyle.copyWith(fontWeight: medium, fontSize: 13),
+          ),
+          titleText: Text(
+            'Terjadi Kesalahan',
+            style: whiteTextStyle.copyWith(
+              fontWeight: bold,
+            ),
+          ),
+        );
+
         return;
       }
 
