@@ -1,4 +1,6 @@
+import 'package:admin_kamus_sahu/infrastructure/theme/theme.dart';
 import 'package:admin_kamus_sahu/utils/extension/box_extension.dart';
+import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -78,19 +80,31 @@ class FormUploadAdd extends StatelessWidget {
                   ),
                 ),
               ),
-              Text(
-                controller.isSelected.value
-                    ? 'Audio sudah dipilih: ${controller.audioFileName}'
-                    : 'Belum ada audio dipilih',
+              10.widthBox,
+              Flexible(
+                flex: 1,
+                child: Text(
+                  controller.isSelected.value
+                      ? '${controller.audioFileName}'
+                      : 'Belum ada audio dipilih',
+                  style: darkBlueTextStyle.copyWith(fontWeight: medium),
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 1,
+                ),
               ),
               if (controller.isSelected.value)
-                ElevatedButton(
+                IconButton(
                   onPressed: () => controller.resetAudio(),
-                  child: Text('Reset'),
-                ),
+                  icon: const Icon(
+                    EvaIcons.trash,
+                    color: oldRose,
+                  ),
+                )
             ],
           ),
         ),
+
+        /// nah sekarang giliran anda pasangkan fungsi untuk pemutar audio di sini =>
         22.heightBox,
       ],
     );

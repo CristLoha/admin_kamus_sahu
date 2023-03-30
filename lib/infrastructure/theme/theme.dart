@@ -14,6 +14,7 @@ const Color darkBlue = Color(0xFF14193F);
 const Color lightGrey = Color(0xFFE8F0FA);
 const Color whisper = Color(0xffEFEEF1);
 const Color red = Color(0xFFCB0000);
+const Color oldRose = Color(0xffE82C51);
 
 TextStyle darkBlueTextStyle = GoogleFonts.poppins(
   color: darkBlue,

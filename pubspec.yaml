@@ -19,6 +19,7 @@ dependencies:
   file_picker: 5.2.6
   firebase_storage: 11.0.16
   just_audio: 0.9.32
+  audioplayers: 3.0.1
   flutter: 
     sdk: flutter
 
