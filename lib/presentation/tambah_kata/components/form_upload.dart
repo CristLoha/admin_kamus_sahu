@@ -1,5 +1,6 @@
 import 'package:admin_kamus_sahu/infrastructure/theme/theme.dart';
 import 'package:admin_kamus_sahu/utils/extension/box_extension.dart';
+import 'package:admin_kamus_sahu/widgets/app_button.dart';
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -61,32 +62,66 @@ class FormUploadAdd extends StatelessWidget {
                   borderRadius: BorderRadius.circular(14),
                   onTap: () {
                     if (controller.isSelected.value) {
-                      Get.defaultDialog(
-                        title: 'Reset audio',
-                        middleText:
-                            'Anda yakin ingin mereset audio yang sudah dipilih?',
-                        onConfirm: () => controller.resetAudio(),
+                      showDialog(
+                        context: context,
+                        barrierDismissible: false,
+                        builder: (BuildContext context) {
+                          return AlertDialog(
+                            title: Text('Reset Audio',
+                                style: darkBlueTextStyle.copyWith(
+                                  fontSize: 20,
+                                  fontWeight: bold,
+                                )),
+                            content: Text(
+                                'Anda yakin ingin mereset audio yang sudah dipilih?',
+                                style: darkGrayTextStyle.copyWith(
+                                  fontSize: 13,
+                                )),
+                            actions: <Widget>[
+                              TextButton(
+                                onPressed: () {
+                                  Navigator.of(context).pop();
+                                },
+                                child: Text('Batal',
+                                    style: darkGrayTextStyle.copyWith(
+                                        fontWeight: medium, fontSize: 13)),
+                              ),
+                              ElevatedButton(
+                                onPressed: () {
+                                  controller.resetAudio();
+                                  Navigator.of(context).pop();
+                                },
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: shamrockGreen,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(20.0),
+                                  ),
+                                  minimumSize: const Size(100.0, 40.0),
+                                ),
+                                child: Text('Reset',
+                                    style: whiteTextStyle.copyWith(
+                                        fontSize: 13, fontWeight: medium)),
+                              ),
+                            ],
+                          );
+                        },
                       );
                     } else {
                       controller.pickAudio();
                     }
                   },
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Image.asset(
-                      ImgString.imgUpload,
-                      width: 24,
-                    ),
-                  ),
+                  child: const Padding(
+                      padding: EdgeInsets.all(8.0),
+                      child: Icon(EvaIcons.upload)),
                 ),
               ),
-              10.widthBox,
+              8.widthBox,
               Flexible(
                 flex: 1,
                 child: Text(
                   controller.isSelected.value
-                      ? '${controller.audioFileName}'
-                      : 'Belum ada audio dipilih',
+                      ? controller.audioFileName
+                      : 'Audio belum dipilih',
                   style: darkBlueTextStyle.copyWith(fontWeight: medium),
                   overflow: TextOverflow.ellipsis,
                   maxLines: 1,
@@ -104,8 +139,8 @@ class FormUploadAdd extends StatelessWidget {
           ),
         ),
 
-        /// nah sekarang giliran anda pasangkan fungsi untuk pemutar audio di sini =>
         22.heightBox,
+        AppButton(text: 'Kirim', onPressed: () {}),
       ],
     );
   }
