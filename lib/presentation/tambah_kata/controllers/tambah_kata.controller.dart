@@ -26,43 +26,10 @@ class TambahKataController extends GetxController {
     if (result != null && result.files.isNotEmpty) {
       final file = File(result.files.single.path!);
       final fileSize = await file.length();
-      const maxSize = 5 * 1024 * 1024; // maksimum ukuran file 2MB
+      const maxSize = 5 * 1024 * 1024; // maksimum ukuran file 5MB
       if (fileSize > maxSize) {
-        Get.snackbar(
-          'Terjadi Kesalahan',
-          'Ukuran file tidak boleh lebih dari 5MB',
-          backgroundColor: oldRose,
-          colorText: white,
-          snackPosition: SnackPosition.TOP,
-          margin: const EdgeInsets.all(0),
-          borderRadius: 0,
-          duration: const Duration(seconds: 4),
-          animationDuration: const Duration(milliseconds: 600),
-          reverseAnimationCurve: Curves.easeInBack,
-          isDismissible: true,
-          dismissDirection: DismissDirection.horizontal,
-          showProgressIndicator: false,
-          overlayBlur: 0.0,
-          overlayColor: darkBlue,
-          icon: const Icon(
-            EvaIcons.alertCircleOutline,
-            color: white,
-          ),
-          shouldIconPulse: true,
-          leftBarIndicatorColor: oldRose,
-          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
-          snackStyle: SnackStyle.FLOATING,
-          messageText: Text(
-            'Ukuran file tidak boleh lebih dari 2MB',
-            style: whiteTextStyle.copyWith(fontWeight: medium, fontSize: 13),
-          ),
-          titleText: Text(
-            'Terjadi Kesalahan',
-            style: whiteTextStyle.copyWith(
-              fontWeight: bold,
-            ),
-          ),
-        );
+        infoFailed(
+            "Terjadi kesalahan", "Ukuran file tidak boleh lebih dari 5MB");
 
         return;
       }
@@ -82,21 +49,21 @@ class TambahKataController extends GetxController {
 
   String get audioFileName =>
       _audioFile != null ? _audioFile!.path.split('/').last : '';
-
   String get audioFileSize => _audioFile != null
       ? '${(_audioFile!.lengthSync() / 1024).toStringAsFixed(2)} KB'
       : '';
   Future<void> uploadAudioToFirebase() async {
     // Pastikan ada file audio yang dipilih
     if (_audioFile == null) {
-      Get.snackbar('Error', 'Pilih file audio terlebih dahulu');
+      infoFailed("Terjadi kesalahan", "Pilih audio terlebihi dahulu");
       return;
     }
 
     // Pastikan ada koneksi internet
     var connectivityResult = await (Connectivity().checkConnectivity());
     if (connectivityResult == ConnectivityResult.none) {
-      Get.snackbar('Error', 'Tidak ada koneksi internet');
+      infoFailed(
+          "Tidak ada Internet", "Silahkan periksa koneksi internet Anda");
       return;
     }
 
@@ -118,14 +85,18 @@ class TambahKataController extends GetxController {
               return false;
             },
             child: AlertDialog(
-              title: Text('Mengunggah audio'),
+              title: Text(
+                'Mengunggah audio',
+                style: darkBlueTextStyle,
+              ),
               content: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Obx(() => LinearProgressIndicator(
                       value: progress
                           .value)), // Ubah progress menjadi sebuah variabel Rx agar dapat diupdate secara reactive
-                  SizedBox(height: 16),
+                  const SizedBox(height: 16),
+
                   Obx(() => Text(
                       '${(progress * 100).toStringAsFixed(0)}%')), // Ubah progress menjadi sebuah variabel Rx agar dapat diupdate secara reactive
                 ],
@@ -141,9 +112,12 @@ class TambahKataController extends GetxController {
         updateProgress(
             snapshot); // Panggil fungsi updateProgress untuk mengubah nilai variabel progress
       });
-
       // Tunggu proses upload selesai
       await task;
+
+      // Ubah tipe MIME file audio menjadi "audio/mpeg"
+      final metadata = SettableMetadata(contentType: 'audio/mpeg');
+      await storageRef.updateMetadata(metadata);
 
       // Simpan URL file audio di Firestore
       final downloadUrl = await storageRef.getDownloadURL();
@@ -153,22 +127,98 @@ class TambahKataController extends GetxController {
       resetAudio();
 
       // Tampilkan pesan sukses
-      Get.snackbar('Berhasil', 'File audio berhasil diunggah ke Firebase');
-    } on FirebaseException catch (e) {
+      infoSuccess("Berhasil", "Data berhasil diunggah");
+    } on FirebaseException {
       // Tampilkan pesan kesalahan
-      Get.snackbar(
-          'Error', e.message ?? 'Terjadi kesalahan saat mengunggah file audio');
+      infoFailed("Gagal mengunggah file audio",
+          "Terjadi Kesalahan saat menggungah file audio");
     } finally {
       // Tutup dialog progress
       Navigator.of(Get.overlayContext!).pop();
 
       // Cek apakah progress sudah 100%
-      if (progress == 1.0) {
+      if (progress.value == 1.0) {
         // Ubah progress menjadi sebuah variabel Rx agar dapat diupdate secara reactive
         // Kembali ke halaman utama setelah proses upload selesai
         Future.delayed(
-            Duration(seconds: 1), () => Get.offAllNamed(Routes.home));
+            const Duration(seconds: 1), () => Get.offAllNamed(Routes.home));
       }
     }
+  }
+
+  void infoFailed(String msg1, String msg2) {
+    Get.snackbar(
+      "",
+      "",
+      backgroundColor: oldRose,
+      colorText: white,
+      snackPosition: SnackPosition.BOTTOM,
+      margin: const EdgeInsets.all(0),
+      borderRadius: 0,
+      duration: const Duration(seconds: 4),
+      animationDuration: const Duration(milliseconds: 600),
+      reverseAnimationCurve: Curves.easeInBack,
+      isDismissible: true,
+      dismissDirection: DismissDirection.horizontal,
+      showProgressIndicator: false,
+      overlayBlur: 0.0,
+      overlayColor: darkBlue,
+      icon: const Icon(
+        EvaIcons.alertCircleOutline,
+        color: white,
+      ),
+      shouldIconPulse: true,
+      leftBarIndicatorColor: oldRose,
+      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+      snackStyle: SnackStyle.FLOATING,
+      titleText: Text(
+        msg1,
+        style: whiteTextStyle.copyWith(
+          fontWeight: bold,
+        ),
+      ),
+      messageText: Text(
+        msg2,
+        style: whiteTextStyle.copyWith(fontWeight: medium, fontSize: 12),
+      ),
+    );
+  }
+
+  void infoSuccess(String msg1, String msg2) {
+    Get.snackbar(
+      "",
+      "",
+      backgroundColor: shamrockGreen,
+      colorText: white,
+      snackPosition: SnackPosition.BOTTOM,
+      margin: const EdgeInsets.all(0),
+      borderRadius: 0,
+      duration: const Duration(seconds: 4),
+      animationDuration: const Duration(milliseconds: 600),
+      reverseAnimationCurve: Curves.easeInBack,
+      isDismissible: true,
+      dismissDirection: DismissDirection.horizontal,
+      showProgressIndicator: false,
+      overlayBlur: 0.0,
+      overlayColor: white, // Menggunakan warna putih
+      icon: const Icon(
+        EvaIcons.checkmarkCircle2Outline,
+        color: white,
+      ),
+      shouldIconPulse: true,
+      leftBarIndicatorColor: shamrockGreen,
+      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+      snackStyle: SnackStyle.FLOATING,
+      titleText: Text(
+        msg1,
+        style: whiteTextStyle.copyWith(
+          fontWeight: bold,
+        ),
+      ),
+      messageText: Text(
+        msg2,
+        style: whiteTextStyle.copyWith(fontWeight: medium, fontSize: 12),
+      ),
+    );
   }
 }
