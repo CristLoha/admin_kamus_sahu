@@ -140,7 +140,12 @@ class FormUploadAdd extends StatelessWidget {
         ),
 
         22.heightBox,
-        AppButton(text: 'Kirim', onPressed: () {}),
+        AppButton(
+          text: 'Kirim',
+          onPressed: () {
+            controller.uploadAudioToFirebase();
+          },
+        ),
       ],
     );
   }
