@@ -11,7 +11,7 @@ class ConnectivityController extends GetxController
   @override
   void onInit() {
     super.onInit();
-    checkInternetConnection();
+    initConnectivity();
     WidgetsBinding.instance.addObserver(this);
   }
 
@@ -29,18 +29,14 @@ class ConnectivityController extends GetxController
         break;
       case AppLifecycleState.resumed:
         _isPaused = false;
-        checkInternetConnection();
+        initConnectivity();
         break;
       default:
         break;
     }
   }
 
-  Future<void> checkInternetConnection() async {
-    if (_isPaused) {
-      return; // do nothing if the app is paused
-    }
-
+  Future<void> initConnectivity() async {
     var connectivityResult = await (Connectivity().checkConnectivity());
     if (connectivityResult == ConnectivityResult.mobile ||
         connectivityResult == ConnectivityResult.wifi) {
@@ -81,8 +77,8 @@ class ConnectivityController extends GetxController
 
   void showInternetNotification() {
     Get.snackbar(
-      "Connected to Internet",
-      "You are now connected to the internet",
+      "Terhubung ke Internet",
+      "Anda kini terhubung ke internet",
       snackPosition: SnackPosition.TOP,
       duration: Duration(seconds: 3),
       backgroundColor: Colors.green,
@@ -96,8 +92,8 @@ class ConnectivityController extends GetxController
 
   void showNoInternetNotification() {
     Get.snackbar(
-      "No Internet",
-      "Please check your internet connection",
+      "Tidak ada Internet",
+      "Silakan periksa koneksi internet Anda",
       snackPosition: SnackPosition.TOP,
       duration: Duration(seconds: 3),
       backgroundColor: Colors.red,

@@ -5,7 +5,6 @@ import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../../utils/extension/img_string.dart';
 import '../../../widgets/app_input.dart';
 import '../../../widgets/title_input.dart';
 import '../controllers/tambah_kata.controller.dart';

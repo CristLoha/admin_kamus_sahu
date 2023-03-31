@@ -22,6 +22,7 @@ dependencies:
   audioplayers: 3.0.1
   ffmpeg_kit_flutter: 5.1.0
   connectivity_plus: 3.0.3
+  shared_preferences: 2.0.20
   flutter: 
     sdk: flutter
 

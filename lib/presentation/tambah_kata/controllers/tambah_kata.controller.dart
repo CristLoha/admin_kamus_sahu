@@ -93,11 +93,10 @@ class TambahKataController extends GetxController {
       return;
     }
 
-    // Cek koneksi internet
+    // Pastikan ada koneksi internet
     var connectivityResult = await (Connectivity().checkConnectivity());
     if (connectivityResult == ConnectivityResult.none) {
-      // Tampilkan pesan bahwa koneksi internet tidak tersedia
-      Get.snackbar('Error', 'Tidak ada koneksi internet saat ini');
+      Get.snackbar('Error', 'Tidak ada koneksi internet');
       return;
     }
 
