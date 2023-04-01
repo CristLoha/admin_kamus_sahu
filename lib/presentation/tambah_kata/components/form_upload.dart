@@ -4,9 +4,7 @@ import 'package:admin_kamus_sahu/widgets/app_button.dart';
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
 import '../../../widgets/app_input.dart';
-import '../../../widgets/text_underline.dart';
 import '../../../widgets/title_input.dart';
 import '../controllers/tambah_kata.controller.dart';
 
@@ -26,27 +24,51 @@ class FormUploadAdd extends StatelessWidget {
           text: 'Kata Sahu',
         ),
         8.heightBox,
-
-        AppInput(),
+        AppInput(
+          controller: controller.kSahu,
+        ),
         16.heightBox,
         const TittleInput(
           text: 'Contoh Kata Bahasa Sahu',
         ),
         8.heightBox,
-        const AppInput(),
+        AppInput(
+          controller: controller.cKSahu,
+        ),
         16.heightBox,
-        ////
         const TittleInput(
           text: 'Kata Indonesia',
         ),
         8.heightBox,
-        const AppInput(),
+        AppInput(
+          controller: controller.kIndo,
+        ),
         16.heightBox,
         const TittleInput(
           text: 'Contoh Kata Bahasa Indonesia',
         ),
         8.heightBox,
-        const AppInput(),
+        AppInput(
+          controller: controller.cKIndo,
+        ),
+        16.heightBox,
+        const TittleInput(
+          text: 'Kategori',
+        ),
+        8.heightBox,
+        Obx(() => DropdownButton(
+              hint: Text('Pilih opsi'),
+              value: controller.selectedOption.value.isEmpty
+                  ? null
+                  : controller.selectedOption.value,
+              items: controller.options.map((String option) {
+                return DropdownMenuItem(
+                  value: option,
+                  child: Text(option),
+                );
+              }).toList(),
+              onChanged: controller.onOptionChanged,
+            )),
         16.heightBox,
         const TittleInput(
           text: 'Unggah Suara Wanita',
@@ -139,14 +161,14 @@ class FormUploadAdd extends StatelessWidget {
             ],
           ),
         ),
-
         22.heightBox,
         AppButton(
           text: 'Kirim',
           onPressed: () {
-            controller.uploadAudioToFirebase();
+            controller.sendDataToFirebase();
           },
         ),
+        22.heightBox,
       ],
     );
   }

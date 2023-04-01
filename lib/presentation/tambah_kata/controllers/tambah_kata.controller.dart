@@ -13,8 +13,36 @@ class TambahKataController extends GetxController {
   File? _audioFile;
   RxBool isSelected = false.obs;
   final progress = RxDouble(0.0);
+  RxString selectedOption = ''.obs;
+  List<String> options = [
+    'Hewan',
+    'Benda',
+    'Kerja',
+    'Tumbuhan',
+    'Tempat',
+    'Angka',
+    'Anggota Tubuh',
+    'Sifat',
+    'Depan',
+  ];
+
+  TextEditingController kSahu = TextEditingController();
+  TextEditingController cKSahu = TextEditingController();
+  TextEditingController kIndo = TextEditingController();
+  TextEditingController cKIndo = TextEditingController();
+  TextEditingController kategori = TextEditingController();
+
   void updateProgress(TaskSnapshot snapshot) {
     progress.value = snapshot.bytesTransferred / snapshot.totalBytes;
+  }
+
+  String get selectedValue => selectedOption.value;
+
+  void onOptionChanged(String? value) {
+    if (value != null) {
+      selectedOption.value = value;
+      kategori.text = value; // update nilai kategori dengan value yang dipilih
+    }
   }
 
   Future<void> pickAudio() async {
@@ -52,10 +80,10 @@ class TambahKataController extends GetxController {
   String get audioFileSize => _audioFile != null
       ? '${(_audioFile!.lengthSync() / 1024).toStringAsFixed(2)} KB'
       : '';
-  Future<void> uploadAudioToFirebase() async {
+  Future<void> sendDataToFirebase() async {
     // Pastikan ada file audio yang dipilih
     if (_audioFile == null) {
-      infoFailed("Terjadi kesalahan", "Pilih audio terlebihi dahulu");
+      infoFailed("Terjadi kesalahan", "Pilih audio terlebih dahulu");
       return;
     }
 
@@ -86,8 +114,8 @@ class TambahKataController extends GetxController {
             },
             child: AlertDialog(
               title: Text(
-                'Mengunggah audio',
-                style: darkBlueTextStyle,
+                'Sedang mengirim data...',
+                style: darkBlueTextStyle.copyWith(fontSize: 12),
               ),
               content: Column(
                 mainAxisSize: MainAxisSize.min,
@@ -96,7 +124,6 @@ class TambahKataController extends GetxController {
                       value: progress
                           .value)), // Ubah progress menjadi sebuah variabel Rx agar dapat diupdate secara reactive
                   const SizedBox(height: 16),
-
                   Obx(() => Text(
                       '${(progress * 100).toStringAsFixed(0)}%')), // Ubah progress menjadi sebuah variabel Rx agar dapat diupdate secara reactive
                 ],
@@ -121,13 +148,20 @@ class TambahKataController extends GetxController {
 
       // Simpan URL file audio di Firestore
       final downloadUrl = await storageRef.getDownloadURL();
-      await firestoreRef.set({'audioUrl': downloadUrl});
+      await firestoreRef.set({
+        'audioUrl': downloadUrl,
+        'kataSahu': kSahu.text,
+        'contohKataSahu': cKSahu.text,
+        'kataIndonesia': kIndo.text,
+        'contohKataIndo': cKIndo.text,
+        'kategori': kategori.text,
+      }); // Tambahkan data kata Sahu dan Indonesia beserta URL audio ke Firestore
 
       // Reset file audio
       resetAudio();
 
       // Tampilkan pesan sukses
-      infoSuccess("Berhasil", "Data berhasil diunggah");
+      infoSuccess("Berhasil", "Data berhasil terkirim");
     } on FirebaseException {
       // Tampilkan pesan kesalahan
       infoFailed("Gagal mengunggah file audio",
@@ -135,7 +169,6 @@ class TambahKataController extends GetxController {
     } finally {
       // Tutup dialog progress
       Navigator.of(Get.overlayContext!).pop();
-
       // Cek apakah progress sudah 100%
       if (progress.value == 1.0) {
         // Ubah progress menjadi sebuah variabel Rx agar dapat diupdate secara reactive
