@@ -9,7 +9,7 @@ class UnderlineText extends StatelessWidget {
   Widget build(BuildContext context) {
     return Text(
       text.replaceAllMapped(RegExp(r'_\w'), (m) => '${m.group(0)![1]}̲'),
-      style: TextStyle(decoration: TextDecoration.underline),
+      style: TextStyle(),
     );
   }
 }
