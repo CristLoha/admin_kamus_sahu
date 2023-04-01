@@ -20,6 +20,7 @@ dependencies:
   firebase_storage: 11.0.16
   connectivity_plus: 3.0.3
   shared_preferences: 2.0.20
+  flutter_quill: 7.0.3
   flutter: 
     sdk: flutter
 

@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../../widgets/app_input.dart';
+import '../../../widgets/app_input_underline.dart';
 import '../../../widgets/title_input.dart';
 import '../controllers/tambah_kata.controller.dart';
 
@@ -25,7 +26,11 @@ class FormUploadAdd extends StatelessWidget {
           text: 'Kata Sahu',
         ),
         8.heightBox,
-        const AppInput(),
+
+        UnderlineText(
+          text: 'a_jaja',
+        ),
+
         16.heightBox,
         const TittleInput(
           text: 'Contoh Kata Bahasa Sahu',
