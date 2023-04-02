@@ -14,12 +14,15 @@ class TambahKataController extends GetxController {
   GlobalKey<FormState> formKey2 = GlobalKey<FormState>();
   GlobalKey<FormState> formKey3 = GlobalKey<FormState>();
   GlobalKey<FormState> formKey4 = GlobalKey<FormState>();
+  final progress = RxDouble(0.0);
+  File? _audioFilePria;
+  RxBool isSelectedPria = false.obs;
 
-  File? _audioFile;
-  RxBool isSelected = false.obs;
+  File? _audioFileWanita;
+  RxBool isSelectedWanita = false.obs;
 
   var errorText = ''.obs;
-  final progress = RxDouble(0.0);
+
   RxString selectedOption = ''.obs;
   List<String> options = [
     'Hewan',
@@ -63,12 +66,15 @@ class TambahKataController extends GetxController {
       // Jika teks field kosong, tampilkan pesan error
       errorText.value = 'Input tidak boleh kosong';
     } else {
+      // Simpan nilai kategori ke dalam controller
+      kategori.text = selectedOption.value;
       // Kirim data
       sendDataToFirebase();
     }
   }
 
-  Future<void> pickAudio() async {
+  ///PRIA
+  Future<void> pickAudioPria() async {
     FilePickerResult? result = await FilePicker.platform.pickFiles(
       type: FileType.custom,
       allowedExtensions: ['mp3', 'wav', 'm4a', 'aac', 'ogg'],
@@ -85,32 +91,78 @@ class TambahKataController extends GetxController {
         return;
       }
 
-      _audioFile = file;
-      isSelected.value = true;
+      _audioFilePria = file;
+      isSelectedPria.value = true;
 
       update();
     }
   }
 
-  void resetAudio() {
-    _audioFile = null;
-    isSelected.value = false;
+  void resetAudioPria() {
+    _audioFilePria = null;
+    isSelectedPria.value = false;
     update();
   }
 
-  String get audioFileName =>
-      _audioFile != null ? _audioFile!.path.split('/').last : '';
-  String get audioFileSize => _audioFile != null
-      ? '${(_audioFile!.lengthSync() / 1024).toStringAsFixed(2)} KB'
+  String get audioFileNamePria =>
+      _audioFilePria != null ? _audioFilePria!.path.split('/').last : '';
+  String get audioFileSizePria => _audioFilePria != null
+      ? '${(_audioFilePria!.lengthSync() / 1024).toStringAsFixed(2)} KB'
+      : '';
+
+  ///PRIAwANITA
+  Future<void> pickAudioWanita() async {
+    FilePickerResult? result = await FilePicker.platform.pickFiles(
+      type: FileType.custom,
+      allowedExtensions: ['mp3', 'wav', 'm4a', 'aac', 'ogg'],
+    );
+
+    if (result != null && result.files.isNotEmpty) {
+      final file = File(result.files.single.path!);
+      final fileSize = await file.length();
+      const maxSize = 5 * 1024 * 1024; // maksimum ukuran file 5MB
+      if (fileSize > maxSize) {
+        infoFailed(
+            "Terjadi kesalahan", "Ukuran file tidak boleh lebih dari 5MB");
+
+        return;
+      }
+
+      _audioFileWanita = file;
+      isSelectedWanita.value = true;
+
+      update();
+    }
+  }
+
+  void resetAudioWanita() {
+    _audioFileWanita = null;
+    isSelectedWanita.value = false;
+    update();
+  }
+
+  String get audioFileNameWanita =>
+      _audioFileWanita != null ? _audioFileWanita!.path.split('/').last : '';
+  String get audioFileSizeWanita => _audioFileWanita != null
+      ? '${(_audioFileWanita!.lengthSync() / 1024).toStringAsFixed(2)} KB'
       : '';
 
   Future<void> sendDataToFirebase() async {
     if (selectedOption.value.isEmpty || errorText.value.isNotEmpty) {
       // Tampilkan pesan error jika kategori belum dipilih atau ada pesan error pada dropdown
       errorText.value = 'Pilih salah satu kategori';
+      return;
     }
+
     // Pastikan ada file audio yang dipilih
-    if (_audioFile == null) {
+
+    ///pria
+    if (_audioFilePria == null) {
+      infoFailed("Terjadi kesalahan", "Pilih audio terlebih dahulu");
+      return;
+    }
+
+    if (_audioFileWanita == null) {
       infoFailed("Terjadi kesalahan", "Pilih audio terlebih dahulu");
       return;
     }
@@ -124,9 +176,13 @@ class TambahKataController extends GetxController {
     }
 
     // Ambil referensi ke Firebase Storage dan Firestore
-    final storageRef = FirebaseStorage.instance
+    final storageRefPria = FirebaseStorage.instance
         .ref()
-        .child('audio/${DateTime.now().toString()}');
+        .child('audioPria/${DateTime.now().toString()}');
+
+    final storageRefWanita = FirebaseStorage.instance
+        .ref()
+        .child('audioWanita/${DateTime.now().toString()}');
     final firestoreRef = FirebaseFirestore.instance.collection('kamus').doc();
 
     try {
@@ -160,33 +216,40 @@ class TambahKataController extends GetxController {
           );
         },
       );
-
-      // Upload file audio ke Firebase Storage dan update progress bar
-      final task = storageRef.putFile(_audioFile!);
-      task.snapshotEvents.listen((snapshot) {
-        updateProgress(
-            snapshot); // Panggil fungsi updateProgress untuk mengubah nilai variabel progress
+// Upload file audio untuk pria ke Firebase Storage dan update progress bar
+      final taskpria = storageRefPria.putFile(_audioFilePria!);
+      taskpria.snapshotEvents.listen((snapshot) {
+        updateProgress(snapshot);
       });
-      // Tunggu proses upload selesai
-      await task;
+      await taskpria;
 
-      // Ubah tipe MIME file audio menjadi "audio/mpeg"
+// Upload file audio untuk wanita ke Firebase Storage dan update progress bar
+      final taskWanita = storageRefWanita.putFile(_audioFileWanita!);
+      taskWanita.snapshotEvents.listen((snapshot) {
+        updateProgress(snapshot);
+      });
+      await taskWanita;
+
+// Set metadata file audio menjadi "audio/mpeg"
       final metadata = SettableMetadata(contentType: 'audio/mpeg');
-      await storageRef.updateMetadata(metadata);
+      await storageRefPria.updateMetadata(metadata);
+      await storageRefWanita.updateMetadata(metadata);
 
       // Simpan URL file audio di Firestore
-      final downloadUrl = await storageRef.getDownloadURL();
+      final downloadUrlPria = await storageRefPria.getDownloadURL();
+      final downloadUrlWanita = await storageRefPria.getDownloadURL();
       await firestoreRef.set({
-        'audioUrl': downloadUrl,
+        'audioUrlPria': downloadUrlPria,
+        'audioUrlWanita': downloadUrlWanita,
         'kataSahu': kSahu.text,
         'contohKataSahu': cKSahu.text,
         'kataIndonesia': kIndo.text,
         'contohKataIndo': cKIndo.text,
-        'kategori': kategori.text,
+        'kategori': selectedOption.value,
       }); // Tambahkan data kata Sahu dan Indonesia beserta URL audio ke Firestore
 
       // Reset file audio
-      resetAudio();
+      resetAudioPria();
 
       // Tampilkan pesan sukses
       infoSuccess("Berhasil", "Data berhasil terkirim");
