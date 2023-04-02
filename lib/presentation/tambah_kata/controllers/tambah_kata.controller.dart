@@ -10,8 +10,15 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class TambahKataController extends GetxController {
+  final GlobalKey<FormState> formKe1 = GlobalKey<FormState>();
+  GlobalKey<FormState> formKey2 = GlobalKey<FormState>();
+  GlobalKey<FormState> formKey3 = GlobalKey<FormState>();
+  GlobalKey<FormState> formKey4 = GlobalKey<FormState>();
+
   File? _audioFile;
   RxBool isSelected = false.obs;
+
+  var errorText = ''.obs;
   final progress = RxDouble(0.0);
   RxString selectedOption = ''.obs;
   List<String> options = [
@@ -38,10 +45,26 @@ class TambahKataController extends GetxController {
 
   String get selectedValue => selectedOption.value;
 
-  void onOptionChanged(String? value) {
-    if (value != null) {
-      selectedOption.value = value;
-      kategori.text = value; // update nilai kategori dengan value yang dipilih
+  void onOptionChanged(String? newValue) {
+    if (newValue != null) {
+      selectedOption.value = newValue;
+      errorText.value =
+          ''; // Menghilangkan pesan kesalahan saat kategori dipilih
+    } else {
+      errorText.value = 'Pilih salah satu opsi';
+    }
+  }
+
+  void handleSubmit() {
+    if (selectedOption.value.isEmpty) {
+      // Jika dropdown belum dipilih, tampilkan pesan error
+      errorText.value = 'Pilih salah satu opsi';
+    } else if (kategori.text.isEmpty) {
+      // Jika teks field kosong, tampilkan pesan error
+      errorText.value = 'Input tidak boleh kosong';
+    } else {
+      // Kirim data
+      sendDataToFirebase();
     }
   }
 
@@ -80,7 +103,12 @@ class TambahKataController extends GetxController {
   String get audioFileSize => _audioFile != null
       ? '${(_audioFile!.lengthSync() / 1024).toStringAsFixed(2)} KB'
       : '';
+
   Future<void> sendDataToFirebase() async {
+    if (selectedOption.value.isEmpty || errorText.value.isNotEmpty) {
+      // Tampilkan pesan error jika kategori belum dipilih atau ada pesan error pada dropdown
+      errorText.value = 'Pilih salah satu kategori';
+    }
     // Pastikan ada file audio yang dipilih
     if (_audioFile == null) {
       infoFailed("Terjadi kesalahan", "Pilih audio terlebih dahulu");
@@ -115,7 +143,7 @@ class TambahKataController extends GetxController {
             child: AlertDialog(
               title: Text(
                 'Sedang mengirim data...',
-                style: darkBlueTextStyle.copyWith(fontSize: 12),
+                style: darkBlueTextStyle.copyWith(fontWeight: medium),
               ),
               content: Column(
                 mainAxisSize: MainAxisSize.min,

@@ -4,9 +4,12 @@ import 'package:admin_kamus_sahu/widgets/app_button.dart';
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import '../../../widgets/app_dropdown.dart';
 import '../../../widgets/app_input.dart';
 import '../../../widgets/title_input.dart';
 import '../controllers/tambah_kata.controller.dart';
+
+final _formKey = GlobalKey<FormState>();
 
 class FormUploadAdd extends StatelessWidget {
   final TambahKataController controller = Get.put(TambahKataController());
@@ -17,159 +20,164 @@ class FormUploadAdd extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        const TittleInput(
-          text: 'Kata Sahu',
-        ),
-        8.heightBox,
-        AppInput(
-          controller: controller.kSahu,
-        ),
-        16.heightBox,
-        const TittleInput(
-          text: 'Contoh Kata Bahasa Sahu',
-        ),
-        8.heightBox,
-        AppInput(
-          controller: controller.cKSahu,
-        ),
-        16.heightBox,
-        const TittleInput(
-          text: 'Kata Indonesia',
-        ),
-        8.heightBox,
-        AppInput(
-          controller: controller.kIndo,
-        ),
-        16.heightBox,
-        const TittleInput(
-          text: 'Contoh Kata Bahasa Indonesia',
-        ),
-        8.heightBox,
-        AppInput(
-          controller: controller.cKIndo,
-        ),
-        16.heightBox,
-        const TittleInput(
-          text: 'Kategori',
-        ),
-        8.heightBox,
-        Obx(() => DropdownButton(
-              hint: Text('Pilih opsi'),
-              value: controller.selectedOption.value.isEmpty
-                  ? null
-                  : controller.selectedOption.value,
-              items: controller.options.map((String option) {
-                return DropdownMenuItem(
-                  value: option,
-                  child: Text(option),
-                );
-              }).toList(),
-              onChanged: controller.onOptionChanged,
-            )),
-        16.heightBox,
-        const TittleInput(
-          text: 'Unggah Suara Wanita',
-        ),
-        8.heightBox,
-        Obx(
-          () => Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Material(
-                elevation: 1,
-                borderRadius: BorderRadius.circular(14),
-                child: InkWell(
-                  borderRadius: BorderRadius.circular(14),
-                  onTap: () {
-                    if (controller.isSelected.value) {
-                      showDialog(
-                        context: context,
-                        barrierDismissible: false,
-                        builder: (BuildContext context) {
-                          return AlertDialog(
-                            title: Text('Reset Audio',
-                                style: darkBlueTextStyle.copyWith(
-                                  fontSize: 20,
-                                  fontWeight: bold,
-                                )),
-                            content: Text(
-                                'Anda yakin ingin mereset audio yang sudah dipilih?',
-                                style: darkGrayTextStyle.copyWith(
-                                  fontSize: 13,
-                                )),
-                            actions: <Widget>[
-                              TextButton(
-                                onPressed: () {
-                                  Navigator.of(context).pop();
-                                },
-                                child: Text('Batal',
-                                    style: darkGrayTextStyle.copyWith(
-                                        fontWeight: medium, fontSize: 13)),
-                              ),
-                              ElevatedButton(
-                                onPressed: () {
-                                  controller.resetAudio();
-                                  Navigator.of(context).pop();
-                                },
-                                style: ElevatedButton.styleFrom(
-                                  backgroundColor: shamrockGreen,
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(20.0),
-                                  ),
-                                  minimumSize: const Size(100.0, 40.0),
-                                ),
-                                child: Text('Reset',
-                                    style: whiteTextStyle.copyWith(
-                                        fontSize: 13, fontWeight: medium)),
-                              ),
-                            ],
-                          );
-                        },
-                      );
-                    } else {
-                      controller.pickAudio();
-                    }
-                  },
-                  child: const Padding(
-                      padding: EdgeInsets.all(8.0),
-                      child: Icon(EvaIcons.upload)),
-                ),
-              ),
-              8.widthBox,
-              Flexible(
-                flex: 1,
-                child: Text(
-                  controller.isSelected.value
-                      ? controller.audioFileName
-                      : 'Audio belum dipilih',
-                  style: darkBlueTextStyle.copyWith(fontWeight: medium),
-                  overflow: TextOverflow.ellipsis,
-                  maxLines: 1,
-                ),
-              ),
-              if (controller.isSelected.value)
-                IconButton(
-                  onPressed: () => controller.resetAudio(),
-                  icon: const Icon(
-                    EvaIcons.trash,
-                    color: oldRose,
-                  ),
-                )
-            ],
+    return Form(
+      key: _formKey,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const TittleInput(
+            text: 'Kata Sahu',
           ),
-        ),
-        22.heightBox,
-        AppButton(
-          text: 'Kirim',
-          onPressed: () {
-            controller.sendDataToFirebase();
-          },
-        ),
-        22.heightBox,
-      ],
+          8.heightBox,
+          AppInput(
+            controller: controller.kSahu,
+          ),
+          16.heightBox,
+          const TittleInput(
+            text: 'Contoh Kata Bahasa Sahu',
+          ),
+          8.heightBox,
+          AppInput(
+            controller: controller.cKSahu,
+          ),
+          16.heightBox,
+          const TittleInput(
+            text: 'Kata Indonesia',
+          ),
+          8.heightBox,
+          AppInput(
+            controller: controller.kIndo,
+          ),
+          16.heightBox,
+          const TittleInput(
+            text: 'Contoh Kata Bahasa Indonesia',
+          ),
+          8.heightBox,
+          AppInput(
+            controller: controller.cKIndo,
+          ),
+          16.heightBox,
+          const TittleInput(
+            text: 'Kategori',
+          ),
+          8.heightBox,
+          AppDropDown(),
+          5.heightBox,
+          Obx(() => Text(
+                controller
+                    .errorText.value, // Menampilkan pesan kesalahan jika ada
+                style: const TextStyle(color: Colors.red),
+              )),
+          16.heightBox,
+          const TittleInput(
+            text: 'Unggah Suara Wanita',
+          ),
+          8.heightBox,
+          Obx(
+            () => Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Material(
+                  elevation: 1,
+                  borderRadius: BorderRadius.circular(14),
+                  child: InkWell(
+                    borderRadius: BorderRadius.circular(14),
+                    onTap: () {
+                      if (controller.isSelected.value) {
+                        showDialog(
+                          context: context,
+                          barrierDismissible: false,
+                          builder: (BuildContext context) {
+                            return AlertDialog(
+                              title: Text('Reset Audio',
+                                  style: darkBlueTextStyle.copyWith(
+                                    fontSize: 20,
+                                    fontWeight: bold,
+                                  )),
+                              content: Text(
+                                  'Anda yakin ingin mereset audio yang sudah dipilih?',
+                                  style: darkGrayTextStyle.copyWith(
+                                    fontSize: 13,
+                                  )),
+                              actions: <Widget>[
+                                TextButton(
+                                  onPressed: () {
+                                    Navigator.of(context).pop();
+                                  },
+                                  child: Text('Batal',
+                                      style: darkGrayTextStyle.copyWith(
+                                          fontWeight: medium, fontSize: 13)),
+                                ),
+                                ElevatedButton(
+                                  onPressed: () {
+                                    controller.resetAudio();
+                                    Navigator.of(context).pop();
+                                  },
+                                  style: ElevatedButton.styleFrom(
+                                    backgroundColor: shamrockGreen,
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(20.0),
+                                    ),
+                                    minimumSize: const Size(100.0, 40.0),
+                                  ),
+                                  child: Text('Reset',
+                                      style: whiteTextStyle.copyWith(
+                                          fontSize: 13, fontWeight: medium)),
+                                ),
+                              ],
+                            );
+                          },
+                        );
+                      } else {
+                        controller.pickAudio();
+                      }
+                    },
+                    child: const Padding(
+                        padding: EdgeInsets.all(8.0),
+                        child: Icon(EvaIcons.upload)),
+                  ),
+                ),
+                8.widthBox,
+                Flexible(
+                  flex: 1,
+                  child: Text(
+                    controller.isSelected.value
+                        ? controller.audioFileName
+                        : 'Audio belum dipilih',
+                    style: darkBlueTextStyle.copyWith(fontWeight: medium),
+                    overflow: TextOverflow.ellipsis,
+                    maxLines: 1,
+                  ),
+                ),
+                if (controller.isSelected.value)
+                  IconButton(
+                    onPressed: () => controller.resetAudio(),
+                    icon: const Icon(
+                      EvaIcons.trash,
+                      color: oldRose,
+                    ),
+                  )
+              ],
+            ),
+          ),
+          22.heightBox,
+          AppButton(
+            text: 'Kirim',
+            onPressed: () {
+              if (_formKey.currentState!.validate()) {
+                if (controller.selectedOption.value.isEmpty) {
+                  // Tampilkan pesan error jika dropdown belum dipilih
+                  controller.errorText.value = 'Pilih salah satu opsi';
+                } else {
+                  // Kirim data ke Firebase jika dropdown sudah dipilih
+                  controller.sendDataToFirebase();
+                }
+              }
+            },
+          ),
+          22.heightBox,
+        ],
+      ),
     );
   }
 }
