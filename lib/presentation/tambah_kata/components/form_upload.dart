@@ -1,7 +1,5 @@
-import 'package:admin_kamus_sahu/infrastructure/theme/theme.dart';
 import 'package:admin_kamus_sahu/utils/extension/box_extension.dart';
 import 'package:admin_kamus_sahu/widgets/app_button.dart';
-import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'audio_pria_upload.dart';
@@ -36,7 +34,7 @@ class FormUploadAdd extends StatelessWidget {
           ),
           16.heightBox,
           const TittleInput(
-            text: 'Contoh Kata Bahasa Sahu',
+            text: 'Contoh Sahu',
           ),
           8.heightBox,
           AppInput(
@@ -52,7 +50,7 @@ class FormUploadAdd extends StatelessWidget {
           ),
           16.heightBox,
           const TittleInput(
-            text: 'Contoh Kata Bahasa Indonesia',
+            text: 'Contoh  Indonesia',
           ),
           8.heightBox,
           AppInput(

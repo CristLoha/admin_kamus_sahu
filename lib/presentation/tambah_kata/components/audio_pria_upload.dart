@@ -83,7 +83,7 @@ class AppWidgetAudioPria extends StatelessWidget {
               c.isSelectedPria.value
                   ? c.audioFileNamePria
                   : 'Audio belum dipilih',
-              style: darkBlueTextStyle.copyWith(fontWeight: medium),
+              style: darkGrayTextStyle.copyWith(fontWeight: medium),
               overflow: TextOverflow.ellipsis,
               maxLines: 1,
             ),

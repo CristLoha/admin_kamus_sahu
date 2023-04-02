@@ -83,7 +83,7 @@ class AppWidgetAudioWanita extends StatelessWidget {
               cW.isSelectedWanita.value
                   ? cW.audioFileNameWanita
                   : 'Audio belum dipilih',
-              style: darkBlueTextStyle.copyWith(fontWeight: medium),
+              style: darkGrayTextStyle.copyWith(fontWeight: medium),
               overflow: TextOverflow.ellipsis,
               maxLines: 1,
             ),
