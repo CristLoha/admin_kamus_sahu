@@ -1,8 +1,10 @@
+import 'package:admin_kamus_sahu/infrastructure/navigation/routes.dart';
 import 'package:admin_kamus_sahu/infrastructure/theme/theme.dart';
 import 'package:admin_kamus_sahu/utils/extension/box_extension.dart';
 import 'package:admin_kamus_sahu/utils/extension/img_string.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 import 'title_heading.dart';
 
 class HomeMenu extends StatelessWidget {
@@ -20,7 +22,7 @@ class HomeMenu extends StatelessWidget {
           child: Text(
             'Kategori',
             style: darkBlueTextStyle.copyWith(
-              fontSize: 20,
+              fontSize: 20.sp,
               fontWeight: semiBold,
             ),
           ),
@@ -44,7 +46,7 @@ class HomeMenu extends StatelessWidget {
                 case 0:
                   title = "Hewan";
                   image = ImgString.imgCat;
-                  onTap = () {};
+                  onTap = () => Get.toNamed(Routes.hewan);
                   break;
                 case 1:
                   title = "Benda";

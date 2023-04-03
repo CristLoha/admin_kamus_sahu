@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../infrastructure/theme/theme.dart';
 
@@ -8,10 +9,10 @@ class TitleHeadingHome extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(left: 24, top: 30),
+      padding: EdgeInsets.only(left: 24.w, top: 30.h),
       child: RichText(
         text: TextSpan(
-            style: darkBlueTextStyle.copyWith(fontSize: 20),
+            style: darkBlueTextStyle.copyWith(fontSize: 20.sp),
             children: [
               TextSpan(
                 text: 'Pilih salah satu kategori\ndi bawah ini ',

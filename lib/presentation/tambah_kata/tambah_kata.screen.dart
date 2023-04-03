@@ -13,45 +13,72 @@ class TambahKataScreen extends GetView<TambahKataController> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: offWhite,
-      appBar: AppBar(
-        elevation: 0,
-        backgroundColor: shamrockGreen,
-        title: Text(
-          'Tambah Kata',
-          style: whiteTextStyle.copyWith(
-            fontSize: 20,
-            fontWeight: semiBold,
-          ),
-        ),
-        centerTitle: true,
-        leading: IconButton(
-          icon: const Icon(EvaIcons.arrowIosBack),
-          onPressed: () => Get.back(),
-        ),
-      ),
-      body: SafeArea(
-        child: Stack(
+      body: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Container(
-              height: 240.w,
-              color: shamrockGreen,
-            ),
-            Center(
-              child: Container(
-                width: 327.w,
-                height: 540.h,
-                decoration: const BoxDecoration(
-                  borderRadius: BorderRadius.all(Radius.circular(13)),
-                  color: white,
+            Stack(
+              children: [
+                Container(
+                  height: 240.w,
+                  color: shamrockGreen,
                 ),
-                child: Padding(
-                  padding: const EdgeInsets.only(left: 22, right: 22, top: 22),
-                  child: SingleChildScrollView(
-                    child: FormUploadAdd(),
+                SafeArea(
+                  child: Column(
+                    children: [
+                      ///NAVBAR
+                      Padding(
+                        padding:
+                            EdgeInsets.only(left: 10.w, top: 20.h, right: 10.w),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            IconButton(
+                              icon: const Icon(
+                                EvaIcons.arrowIosBack,
+                                color: white,
+                              ),
+                              onPressed: () => Get.back(),
+                            ),
+                            Expanded(
+                              child: Text(
+                                'Tambah Kata',
+                                textAlign: TextAlign.center,
+                                style: whiteTextStyle.copyWith(
+                                  fontSize: 20.sp,
+                                  fontWeight: semiBold,
+                                ),
+                              ),
+                            ),
+                            130.widthBox,
+                          ],
+                        ),
+                      ),
+                      40.heightBox,
+
+                      ///CONTENT
+                      Padding(
+                        padding: EdgeInsets.only(
+                          left: 24.w,
+                          right: 24.w,
+                        ),
+                        child: Container(
+                          decoration: const BoxDecoration(
+                            borderRadius: BorderRadius.all(Radius.circular(13)),
+                            color: white,
+                          ),
+                          child: Padding(
+                              padding: EdgeInsets.symmetric(
+                                  vertical: 30.h, horizontal: 22.h),
+                              child: FormUploadAdd()),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
-              ),
-            )
+              ],
+            ),
+            40.heightBox,
           ],
         ),
       ),
