@@ -51,5 +51,10 @@ class Nav {
       page: () => const TambahKataScreen(),
       binding: TambahKataControllerBinding(),
     ),
+    GetPage(
+      name: Routes.HEWAN,
+      page: () => const HewanScreen(),
+      binding: HewanControllerBinding(),
+    ),
   ];
 }

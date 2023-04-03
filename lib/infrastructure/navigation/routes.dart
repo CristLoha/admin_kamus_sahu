@@ -3,8 +3,9 @@ class Routes {
     return splashScreen;
   }
 
-  static const tambahKata = '/tambah-kata';
   static const home = '/home';
   static const login = '/login';
   static const splashScreen = '/splash-screen';
+  static const tambahKata = '/tambah-kata';
+  static const HEWAN = '/hewan';
 }
