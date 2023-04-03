@@ -1,3 +1,4 @@
+import 'package:admin_kamus_sahu/infrastructure/theme/theme.dart';
 import 'package:flutter/material.dart';
 
 class UnderlineText extends StatelessWidget {
@@ -9,7 +10,7 @@ class UnderlineText extends StatelessWidget {
   Widget build(BuildContext context) {
     return Text(
       text.replaceAllMapped(RegExp(r'_\w'), (m) => '${m.group(0)![1]}̲'),
-      style: TextStyle(),
+      style: TextStyle(fontSize: 30),
     );
   }
 }

@@ -1,4 +1,5 @@
 import 'package:admin_kamus_sahu/utils/extension/box_extension.dart';
+import 'package:admin_kamus_sahu/widgets/text_underline.dart';
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -7,6 +8,7 @@ import 'package:get/get.dart';
 
 import '../../infrastructure/theme/theme.dart';
 
+import 'components/buttonHewan_language.dart';
 import 'controllers/hewan.controller.dart';
 
 class HewanScreen extends GetView<HewanController> {
@@ -20,7 +22,7 @@ class HewanScreen extends GetView<HewanController> {
         centerTitle: true,
         iconTheme: const IconThemeData(color: white),
         title: Text(
-          'Tambah Kata',
+          'Kata Hewan',
           textAlign: TextAlign.center,
           style: whiteTextStyle.copyWith(
             fontSize: 20.sp,
@@ -57,7 +59,9 @@ class HewanScreen extends GetView<HewanController> {
                               padding: EdgeInsets.symmetric(
                                   vertical: 30.h, horizontal: 22.h),
                               child: Column(
-                                children: [],
+                                children: const [
+                                  ButtonLanguageHewan(),
+                                ],
                               )),
                         ),
                       ),
