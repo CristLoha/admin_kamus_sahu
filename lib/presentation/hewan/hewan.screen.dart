@@ -6,8 +6,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
 import '../../infrastructure/theme/theme.dart';
-import '../../widgets/app_input.dart';
-import '../../widgets/title_input.dart';
+
 import 'controllers/hewan.controller.dart';
 
 class HewanScreen extends GetView<HewanController> {
@@ -15,6 +14,20 @@ class HewanScreen extends GetView<HewanController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: shamrockGreen,
+        elevation: 0,
+        centerTitle: true,
+        iconTheme: const IconThemeData(color: white),
+        title: Text(
+          'Tambah Kata',
+          textAlign: TextAlign.center,
+          style: whiteTextStyle.copyWith(
+            fontSize: 20.sp,
+            fontWeight: semiBold,
+          ),
+        ),
+      ),
       backgroundColor: offWhite,
       body: SingleChildScrollView(
         child: Column(
@@ -30,35 +43,8 @@ class HewanScreen extends GetView<HewanController> {
                   child: Column(
                     children: [
                       Padding(
-                        padding:
-                            EdgeInsets.only(left: 10.w, top: 20.h, right: 10.w),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            IconButton(
-                              icon: const Icon(
-                                EvaIcons.arrowIosBack,
-                                color: white,
-                              ),
-                              onPressed: () => Get.back(),
-                            ),
-                            Expanded(
-                              child: Text(
-                                'Kata Hewan',
-                                textAlign: TextAlign.center,
-                                style: whiteTextStyle.copyWith(
-                                  fontSize: 20.sp,
-                                  fontWeight: semiBold,
-                                ),
-                              ),
-                            ),
-                            130.widthBox,
-                          ],
-                        ),
-                      ),
-                      40.heightBox,
-                      Padding(
                         padding: EdgeInsets.only(
+                          top: 20.h,
                           left: 24.w,
                           right: 24.w,
                         ),

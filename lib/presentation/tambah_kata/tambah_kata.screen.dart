@@ -13,6 +13,20 @@ class TambahKataScreen extends GetView<TambahKataController> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: offWhite,
+      appBar: AppBar(
+        backgroundColor: shamrockGreen,
+        elevation: 0,
+        centerTitle: true,
+        iconTheme: const IconThemeData(color: white),
+        title: Text(
+          'Tambah Kata',
+          textAlign: TextAlign.center,
+          style: whiteTextStyle.copyWith(
+            fontSize: 20.sp,
+            fontWeight: semiBold,
+          ),
+        ),
+      ),
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -26,42 +40,10 @@ class TambahKataScreen extends GetView<TambahKataController> {
                 SafeArea(
                   child: Column(
                     children: [
-                      ///NAVBAR
-                      Padding(
-                        padding:
-                            EdgeInsets.only(left: 10.w, top: 20.h, right: 10.w),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            IconButton(
-                              icon: const Icon(
-                                EvaIcons.arrowIosBack,
-                                color: white,
-                              ),
-                              onPressed: () => Get.back(),
-                            ),
-                            Expanded(
-                              child: Text(
-                                'Tambah Kata',
-                                textAlign: TextAlign.center,
-                                style: whiteTextStyle.copyWith(
-                                  fontSize: 20.sp,
-                                  fontWeight: semiBold,
-                                ),
-                              ),
-                            ),
-                            130.widthBox,
-                          ],
-                        ),
-                      ),
-                      40.heightBox,
-
                       ///CONTENT
                       Padding(
-                        padding: EdgeInsets.only(
-                          left: 24.w,
-                          right: 24.w,
-                        ),
+                        padding:
+                            EdgeInsets.only(left: 24.w, right: 24.w, top: 20.h),
                         child: Container(
                           decoration: const BoxDecoration(
                             borderRadius: BorderRadius.all(Radius.circular(13)),
