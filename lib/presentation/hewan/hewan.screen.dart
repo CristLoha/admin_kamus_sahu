@@ -8,6 +8,7 @@ import 'package:get/get.dart';
 
 import '../../infrastructure/theme/theme.dart';
 
+import '../../widgets/app_search.dart';
 import 'components/buttonHewan_language.dart';
 import 'controllers/hewan.controller.dart';
 
@@ -59,8 +60,10 @@ class HewanScreen extends GetView<HewanController> {
                               padding: EdgeInsets.symmetric(
                                   vertical: 30.h, horizontal: 22.h),
                               child: Column(
-                                children: const [
-                                  ButtonLanguageHewan(),
+                                children: [
+                                  const ButtonLanguageHewan(),
+                                  30.heightBox,
+                                  const AppSearch(),
                                 ],
                               )),
                         ),
