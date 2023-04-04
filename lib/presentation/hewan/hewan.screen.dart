@@ -64,6 +64,150 @@ class HewanScreen extends GetView<HewanController> {
                                   const ButtonLanguageHewan(),
                                   30.heightBox,
                                   const AppSearch(),
+                                  30.heightBox,
+                                  Container(
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(20),
+                                      border: Border.all(color: whisper),
+                                    ),
+                                    child: ListTile(
+                                      trailing:
+                                          const Icon(EvaIcons.volumeUpOutline),
+                                      title: const UnderlineText(
+                                        text: "_Boki",
+                                        textStyle: TextStyle(
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.w500,
+                                            color: darkBlue),
+                                      ),
+                                      subtitle: Text(
+                                        'Kucing',
+                                        style: TextStyle(
+                                          color: Colors.blueGrey[500],
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  18.heightBox,
+                                  Container(
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(20),
+                                      border: Border.all(color: whisper),
+                                    ),
+                                    child: ListTile(
+                                      trailing:
+                                          const Icon(EvaIcons.volumeUpOutline),
+                                      title: const UnderlineText(
+                                        text: "_Boki",
+                                        textStyle: TextStyle(
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.w500,
+                                            color: darkBlue),
+                                      ),
+                                      subtitle: Text(
+                                        'Kucing',
+                                        style: TextStyle(
+                                          color: Colors.blueGrey[500],
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  18.heightBox,
+                                  Container(
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(20),
+                                      border: Border.all(color: whisper),
+                                    ),
+                                    child: ListTile(
+                                      trailing:
+                                          const Icon(EvaIcons.volumeUpOutline),
+                                      title: const UnderlineText(
+                                        text: "_Boki",
+                                        textStyle: TextStyle(
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.w500,
+                                            color: darkBlue),
+                                      ),
+                                      subtitle: Text(
+                                        'Kucing',
+                                        style: TextStyle(
+                                          color: Colors.blueGrey[500],
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  18.heightBox,
+                                  Container(
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(20),
+                                      border: Border.all(color: whisper),
+                                    ),
+                                    child: ListTile(
+                                      trailing:
+                                          const Icon(EvaIcons.volumeUpOutline),
+                                      title: const UnderlineText(
+                                        text: "_Boki",
+                                        textStyle: TextStyle(
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.w500,
+                                            color: darkBlue),
+                                      ),
+                                      subtitle: Text(
+                                        'Kucing',
+                                        style: TextStyle(
+                                          color: Colors.blueGrey[500],
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  18.heightBox,
+                                  Container(
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(20),
+                                      border: Border.all(color: whisper),
+                                    ),
+                                    child: ListTile(
+                                      trailing:
+                                          const Icon(EvaIcons.volumeUpOutline),
+                                      title: const UnderlineText(
+                                        text: "_Boki",
+                                        textStyle: TextStyle(
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.w500,
+                                            color: darkBlue),
+                                      ),
+                                      subtitle: Text(
+                                        'Kucing',
+                                        style: TextStyle(
+                                          color: Colors.blueGrey[500],
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  18.heightBox,
+                                  Container(
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(20),
+                                      border: Border.all(color: whisper),
+                                    ),
+                                    child: ListTile(
+                                      trailing:
+                                          const Icon(EvaIcons.volumeUpOutline),
+                                      title: const UnderlineText(
+                                        text: "_Boki",
+                                        textStyle: TextStyle(
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.w500,
+                                            color: darkBlue),
+                                      ),
+                                      subtitle: Text(
+                                        'Kucing',
+                                        style: TextStyle(
+                                          color: Colors.blueGrey[500],
+                                        ),
+                                      ),
+                                    ),
+                                  ),
                                 ],
                               )),
                         ),

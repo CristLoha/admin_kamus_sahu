@@ -16,6 +16,7 @@ class AppSearch extends StatelessWidget {
       child: TextFormField(
         cursorColor: darkBlue,
         decoration: InputDecoration(
+          contentPadding: const EdgeInsets.only(left: 10, bottom: 20),
           hintStyle: slateGreyTextStyle,
           prefixIcon: const Icon(
             EvaIcons.searchOutline,
