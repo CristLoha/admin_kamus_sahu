@@ -264,8 +264,8 @@ class TambahKataController extends GetxController {
       if (progress.value == 1.0) {
         // Ubah progress menjadi sebuah variabel Rx agar dapat diupdate secara reactive
         // Kembali ke halaman utama setelah proses upload selesai
-        Future.delayed(
-            const Duration(seconds: 1), () => Get.offAllNamed(Routes.home));
+        Future.delayed(const Duration(milliseconds: 1),
+            () => Get.offAllNamed(Routes.home));
       }
     }
   }

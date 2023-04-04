@@ -1,23 +1,21 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get/get.dart';
 
 class HewanController extends GetxController {
-  //TODO: Implement HewanController
+  var isSahu = true.obs; // initial language is Sahu
 
-  final count = 0.obs;
-  @override
-  void onInit() {
-    super.onInit();
+  void toggleLanguage() {
+    isSahu.value = !isSahu.value; // toggle the language
   }
 
-  @override
-  void onReady() {
-    super.onReady();
+  void updateLanguage() {
+    toggleLanguage();
+    getHewan();
   }
 
-  @override
-  void onClose() {
-    super.onClose();
+  FirebaseFirestore firestore = FirebaseFirestore.instance;
+  Stream<QuerySnapshot<Object?>> getHewan() {
+    CollectionReference layanan = firestore.collection('kamus');
+    return layanan.where('kategori', isEqualTo: 'Hewan').snapshots();
   }
-
-  void increment() => count.value++;
 }
