@@ -61,5 +61,10 @@ class Nav {
       page: () => const EditScreen(),
       binding: EditControllerBinding(),
     ),
+    GetPage(
+      name: Routes.detail,
+      page: () => const DetailScreen(),
+      binding: DetailControllerBinding(),
+    ),
   ];
 }

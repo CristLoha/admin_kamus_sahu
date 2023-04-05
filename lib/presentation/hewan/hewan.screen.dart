@@ -5,13 +5,12 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:lottie/lottie.dart';
-import 'package:shimmer/shimmer.dart';
-
 import '../../infrastructure/theme/theme.dart';
-import '../../utils/extension/lottie_string.dart';
 import '../../widgets/app_search.dart';
+import '../../widgets/cirucular_progress_indicator.dart';
+import '../../widgets/title_appbar.dart';
 import 'components/button_hewan_language.dart';
+import '../../widgets/pop_menu_list.dart';
 import 'controllers/hewan.controller.dart';
 
 class HewanScreen extends GetView<HewanController> {
@@ -25,14 +24,7 @@ class HewanScreen extends GetView<HewanController> {
         elevation: 0,
         centerTitle: true,
         iconTheme: const IconThemeData(color: white),
-        title: Text(
-          'Kata Hewan',
-          textAlign: TextAlign.center,
-          style: whiteTextStyle.copyWith(
-            fontSize: 20.sp,
-            fontWeight: semiBold,
-          ),
-        ),
+        title: const TittleAppBar(title: 'Kata Hewan'),
       ),
       backgroundColor: offWhite,
       body: SingleChildScrollView(
@@ -78,18 +70,16 @@ class HewanScreen extends GetView<HewanController> {
                                     return text;
                                   }
 
-                                  // Urutkan data berdasarkan field 'kataIndonesia' atau 'kataSahu'
-
-                                  if (controller.isSahu.value) {
-                                    dataList.sort((a, b) => removeUnderscore(
-                                            a['kataSahu'])
-                                        .compareTo(
-                                            removeUnderscore(b['kataSahu'])));
-                                  } else {
+                                  if (!controller.isSahu.value) {
                                     dataList.sort((a, b) =>
                                         removeUnderscore(a['kataIndonesia'])
                                             .compareTo(removeUnderscore(
                                                 b['kataIndonesia'])));
+                                  } else {
+                                    dataList.sort((a, b) => removeUnderscore(
+                                            a['kataSahu'])
+                                        .compareTo(
+                                            removeUnderscore(b['kataSahu'])));
                                   }
 
                                   return Column(
@@ -122,41 +112,11 @@ class HewanScreen extends GetView<HewanController> {
                                                 child: InkWell(
                                                   borderRadius:
                                                       BorderRadius.circular(20),
-                                                  onTap: () {},
+                                                  onTap: () => Get.toNamed(
+                                                      Routes.detail),
                                                   child: ListTile(
-                                                    trailing:
-                                                        PopupMenuButton<String>(
-                                                      onSelected:
-                                                          (String value) async {
-                                                        if (value == 'edit') {
-                                                          Get.toNamed(
-                                                              Routes.edit);
-                                                        } else if (value ==
-                                                            'hapus') {
-                                                          controller
-                                                              .deleteHewan(
-                                                                  data.id);
-                                                        }
-                                                      },
-                                                      itemBuilder: (BuildContext
-                                                              context) =>
-                                                          <
-                                                              PopupMenuEntry<
-                                                                  String>>[
-                                                        PopupMenuItem<String>(
-                                                          value: 'edit',
-                                                          child: Text('Edit',
-                                                              style:
-                                                                  darkBlueTextStyle),
-                                                        ),
-                                                        PopupMenuItem<String>(
-                                                          value: 'hapus',
-                                                          child: Text('Hapus',
-                                                              style:
-                                                                  darkBlueTextStyle),
-                                                        ),
-                                                      ],
-                                                    ),
+                                                    trailing: PopMenuButtonList(
+                                                        c: controller, d: data),
                                                     title: UnderlineText(
                                                       text: controller
                                                               .isSahu.value
@@ -194,11 +154,7 @@ class HewanScreen extends GetView<HewanController> {
                                     ],
                                   );
                                 } else {
-                                  return const Center(
-                                    child: CircularProgressIndicator(
-                                      color: shamrockGreen,
-                                    ),
-                                  );
+                                  return CircularProgressWidget();
                                 }
                               },
                             ),

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import '../../infrastructure/theme/theme.dart';
+import '../../widgets/title_appbar.dart';
 import 'components/form_upload.dart';
 import 'controllers/tambah_kata.controller.dart';
 
@@ -13,19 +14,13 @@ class TambahKataScreen extends GetView<TambahKataController> {
     return Scaffold(
       backgroundColor: offWhite,
       appBar: AppBar(
-        backgroundColor: shamrockGreen,
-        elevation: 0,
-        centerTitle: true,
-        iconTheme: const IconThemeData(color: white),
-        title: Text(
-          'Tambah Kata',
-          textAlign: TextAlign.center,
-          style: whiteTextStyle.copyWith(
-            fontSize: 20.sp,
-            fontWeight: semiBold,
-          ),
-        ),
-      ),
+          backgroundColor: shamrockGreen,
+          elevation: 0,
+          centerTitle: true,
+          iconTheme: const IconThemeData(color: white),
+          title: const TittleAppBar(
+            title: 'Tambah Kata',
+          )),
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,

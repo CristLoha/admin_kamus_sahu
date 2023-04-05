@@ -1,3 +1,4 @@
+export 'package:admin_kamus_sahu/presentation/detail/detail.screen.dart';
 export 'package:admin_kamus_sahu/presentation/edit/edit.screen.dart';
 export 'package:admin_kamus_sahu/presentation/hewan/hewan.screen.dart';
 export 'package:admin_kamus_sahu/presentation/home/home.screen.dart';
