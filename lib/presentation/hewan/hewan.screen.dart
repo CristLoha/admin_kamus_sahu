@@ -1,12 +1,15 @@
+import 'package:admin_kamus_sahu/infrastructure/navigation/routes.dart';
 import 'package:admin_kamus_sahu/utils/extension/box_extension.dart';
 import 'package:admin_kamus_sahu/widgets/text_underline.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:lottie/lottie.dart';
+import 'package:shimmer/shimmer.dart';
 
 import '../../infrastructure/theme/theme.dart';
+import '../../utils/extension/lottie_string.dart';
 import '../../widgets/app_search.dart';
 import 'components/button_hewan_language.dart';
 import 'controllers/hewan.controller.dart';
@@ -76,6 +79,7 @@ class HewanScreen extends GetView<HewanController> {
                                   }
 
                                   // Urutkan data berdasarkan field 'kataIndonesia' atau 'kataSahu'
+
                                   if (controller.isSahu.value) {
                                     dataList.sort((a, b) => removeUnderscore(
                                             a['kataSahu'])
@@ -98,42 +102,88 @@ class HewanScreen extends GetView<HewanController> {
                                         shrinkWrap: true,
                                         physics:
                                             const NeverScrollableScrollPhysics(),
-                                        itemCount: dataList.length,
+                                        itemCount: snapshot.hasData
+                                            ? dataList.length
+                                            : 5,
                                         itemBuilder: (context, index) {
                                           var data = dataList[index];
                                           return Obx(
-                                            () => Container(
-                                              margin: const EdgeInsets.only(
-                                                  bottom: 16),
-                                              decoration: BoxDecoration(
-                                                borderRadius:
-                                                    BorderRadius.circular(20),
-                                                border:
-                                                    Border.all(color: whisper),
-                                              ),
-                                              child: ListTile(
-                                                trailing: const Icon(
-                                                    EvaIcons.volumeUpOutline),
-                                                title: UnderlineText(
-                                                  text: controller.isSahu.value
-                                                      ? data['kataSahu']
-                                                          .toString()
-                                                      : data['kataIndonesia']
-                                                          .toString(),
-                                                  textStyle: const TextStyle(
-                                                    fontSize: 16,
-                                                    fontWeight: FontWeight.w500,
-                                                    color: darkBlue,
-                                                  ),
+                                            () => Material(
+                                              color: white,
+                                              child: Container(
+                                                margin: const EdgeInsets.only(
+                                                    bottom: 16),
+                                                decoration: BoxDecoration(
+                                                  borderRadius:
+                                                      BorderRadius.circular(20),
+                                                  border: Border.all(
+                                                      color: whisper),
                                                 ),
-                                                subtitle: UnderlineText(
-                                                  text: controller.isSahu.value
-                                                      ? data['kataIndonesia']
-                                                          .toString()
-                                                      : data['kataSahu']
-                                                          .toString(),
-                                                  textStyle: const TextStyle(
-                                                    color: Colors.blueGrey,
+                                                child: InkWell(
+                                                  borderRadius:
+                                                      BorderRadius.circular(20),
+                                                  onTap: () {},
+                                                  child: ListTile(
+                                                    trailing:
+                                                        PopupMenuButton<String>(
+                                                      onSelected:
+                                                          (String value) async {
+                                                        if (value == 'edit') {
+                                                          Get.toNamed(
+                                                              Routes.edit);
+                                                        } else if (value ==
+                                                            'hapus') {
+                                                          controller
+                                                              .deleteHewan(
+                                                                  data.id);
+                                                        }
+                                                      },
+                                                      itemBuilder: (BuildContext
+                                                              context) =>
+                                                          <
+                                                              PopupMenuEntry<
+                                                                  String>>[
+                                                        PopupMenuItem<String>(
+                                                          value: 'edit',
+                                                          child: Text('Edit',
+                                                              style:
+                                                                  darkBlueTextStyle),
+                                                        ),
+                                                        PopupMenuItem<String>(
+                                                          value: 'hapus',
+                                                          child: Text('Hapus',
+                                                              style:
+                                                                  darkBlueTextStyle),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                    title: UnderlineText(
+                                                      text: controller
+                                                              .isSahu.value
+                                                          ? data['kataSahu']
+                                                              .toString()
+                                                          : data['kataIndonesia']
+                                                              .toString(),
+                                                      textStyle:
+                                                          const TextStyle(
+                                                        fontSize: 16,
+                                                        fontWeight:
+                                                            FontWeight.w500,
+                                                        color: darkBlue,
+                                                      ),
+                                                    ),
+                                                    subtitle: UnderlineText(
+                                                      text: controller
+                                                              .isSahu.value
+                                                          ? data['kataIndonesia']
+                                                              .toString()
+                                                          : data['kataSahu']
+                                                              .toString(),
+                                                      textStyle:
+                                                          const TextStyle(
+                                                        color: Colors.blueGrey,
+                                                      ),
+                                                    ),
                                                   ),
                                                 ),
                                               ),
@@ -145,7 +195,10 @@ class HewanScreen extends GetView<HewanController> {
                                   );
                                 } else {
                                   return const Center(
-                                      child: CircularProgressIndicator());
+                                    child: CircularProgressIndicator(
+                                      color: shamrockGreen,
+                                    ),
+                                  );
                                 }
                               },
                             ),

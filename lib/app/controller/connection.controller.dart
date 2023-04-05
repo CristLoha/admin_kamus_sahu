@@ -80,10 +80,10 @@ class ConnectivityController extends GetxController
       "Terhubung ke Internet",
       "Anda kini terhubung ke internet",
       snackPosition: SnackPosition.TOP,
-      duration: Duration(seconds: 3),
+      duration: const Duration(seconds: 3),
       backgroundColor: Colors.green,
       colorText: Colors.white,
-      icon: Icon(
+      icon: const Icon(
         Icons.check_circle,
         color: Colors.white,
       ),
@@ -95,10 +95,10 @@ class ConnectivityController extends GetxController
       "Tidak ada Internet",
       "Silakan periksa koneksi internet Anda",
       snackPosition: SnackPosition.TOP,
-      duration: Duration(seconds: 3),
+      duration: const Duration(seconds: 3),
       backgroundColor: Colors.red,
       colorText: Colors.white,
-      icon: Icon(
+      icon: const Icon(
         Icons.warning,
         color: Colors.white,
       ),

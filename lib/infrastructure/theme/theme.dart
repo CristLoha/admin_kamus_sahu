@@ -35,6 +35,10 @@ TextStyle slateGreyTextStyle = GoogleFonts.poppins(
   color: slateGrey,
 );
 
+TextStyle oldRoseTextStyle = GoogleFonts.poppins(
+  color: oldRose,
+);
+
 FontWeight light = FontWeight.w300;
 FontWeight regular = FontWeight.w400;
 FontWeight medium = FontWeight.w500;

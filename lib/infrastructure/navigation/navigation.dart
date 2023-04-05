@@ -56,5 +56,10 @@ class Nav {
       page: () => const HewanScreen(),
       binding: HewanControllerBinding(),
     ),
+    GetPage(
+      name: Routes.edit,
+      page: () => const EditScreen(),
+      binding: EditControllerBinding(),
+    ),
   ];
 }
