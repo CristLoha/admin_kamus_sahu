@@ -5,7 +5,8 @@ import 'package:get/get.dart';
 import 'controllers/edit.controller.dart';
 
 class EditScreen extends GetView<EditController> {
-  const EditScreen({Key? key}) : super(key: key);
+  final dynamic data = Get.arguments;
+  EditScreen({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Scaffold(

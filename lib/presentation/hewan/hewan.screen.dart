@@ -112,8 +112,10 @@ class HewanScreen extends GetView<HewanController> {
                                                 child: InkWell(
                                                   borderRadius:
                                                       BorderRadius.circular(20),
-                                                  onTap: () => Get.toNamed(
-                                                      Routes.detail),
+                                                  onTap: () {
+                                                    Get.toNamed(Routes.detail,
+                                                        arguments: data);
+                                                  },
                                                   child: ListTile(
                                                     trailing: PopMenuButtonList(
                                                         c: controller, d: data),
@@ -154,7 +156,7 @@ class HewanScreen extends GetView<HewanController> {
                                     ],
                                   );
                                 } else {
-                                  return CircularProgressWidget();
+                                  return const CircularProgressWidget();
                                 }
                               },
                             ),

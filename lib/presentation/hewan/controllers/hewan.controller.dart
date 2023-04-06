@@ -6,20 +6,20 @@ import 'package:just_audio/just_audio.dart';
 
 class HewanController extends GetxController {
   var isSahu = true.obs; // initial language is Sahu
-  late AudioPlayer _audioPlayer;
-  bool isPlaying = false;
+  var selectedLanguage = 'Indonesia'.obs;
 
-  HewanController() {
-    _audioPlayer = AudioPlayer();
+  void toggleLanguage() {
+    isSahu.value = !isSahu.value; // toggle the language
+    selectedLanguage.value =
+        isSahu.value ? 'Sahu' : 'Indonesia'; // update selected language
+  }
+
+  void updateLanguage() {
+    toggleLanguage();
+    getHewan();
   }
 
   FirebaseFirestore firestore = FirebaseFirestore.instance;
-
-  @override
-  void onClose() {
-    _audioPlayer.dispose();
-    super.onClose();
-  }
 
   Stream<QuerySnapshot<Object?>> getHewan() {
     CollectionReference layanan = firestore.collection('kamus');
@@ -73,44 +73,4 @@ class HewanController extends GetxController {
           snackPosition: SnackPosition.BOTTOM);
     }
   }
-
-  void toggleLanguage() {
-    isSahu.value = !isSahu.value; // toggle the language
-  }
-
-  void updateLanguage() {
-    toggleLanguage();
-    getHewan();
-  }
-
-  Future<void> togglePlaying(String audioUrl) async {
-    if (isPlaying) {
-      await _audioPlayer.pause();
-      isPlaying = false;
-    }
-    await _audioPlayer.setUrl(audioUrl);
-    await _audioPlayer.play();
-    isPlaying = true;
-  }
 }
-
-
-// IconButton(
-//                                                   icon: Icon(
-//                                                     Icons.volume_up,
-//                                                     color: controller
-//                                                                 .isPlaying &&
-//                                                             data['audioUrlPria'] ==
-//                                                                 data[
-//                                                                     'audioUrlPria']
-//                                                         ? Colors
-//                                                             .blue // warna biru jika audio saat ini sedang diputar
-//                                                         : Colors
-//                                                             .grey, // warna abu-abu jika audio belum diputar atau jika audio diputar tapi bukan audio saat ini
-//                                                   ),
-//                                                   onPressed: () async {
-//                                                     await controller
-//                                                         .togglePlaying(data[
-//                                                             'audioUrlPria']);
-//                                                   },
-//                                                 ),
