@@ -1,8 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
-import '../../domain/models/aho_corasick_m.dart'; // ganti dengan nama file yang kamu buat
+import '../../domain/models/aho_corasick_m.dart';
 
 class AhoCorasickController extends GetxController {
   final CollectionReference _kamusCollection =
