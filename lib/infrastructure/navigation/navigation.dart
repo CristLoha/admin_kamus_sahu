@@ -53,7 +53,7 @@ class Nav {
     ),
     GetPage(
       name: Routes.hewan,
-      page: () => const HewanScreen(),
+      page: () => HewanScreen(),
       binding: HewanControllerBinding(),
     ),
     GetPage(

@@ -5,6 +5,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import '../../app/controller/aho_corasick.dart';
 import '../../infrastructure/theme/theme.dart';
 import '../../widgets/app_search.dart';
 import '../../widgets/cirucular_progress_indicator.dart';
@@ -14,7 +15,8 @@ import '../../widgets/pop_menu_list.dart';
 import 'controllers/hewan.controller.dart';
 
 class HewanScreen extends GetView<HewanController> {
-  const HewanScreen({Key? key}) : super(key: key);
+  final AhoCorasickController _ahoC = Get.put(AhoCorasickController());
+  HewanScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -63,6 +65,7 @@ class HewanScreen extends GetView<HewanController> {
                               builder: (context, snapshot) {
                                 if (snapshot.hasData) {
                                   var dataList = snapshot.data!.docs.toList();
+
                                   String removeUnderscore(String text) {
                                     if (text.startsWith('_')) {
                                       return text.substring(1);
@@ -86,15 +89,13 @@ class HewanScreen extends GetView<HewanController> {
                                     children: [
                                       ButtonLanguageHewan(),
                                       30.heightBox,
-                                      const AppSearch(),
+                                      AppSearch(),
                                       30.heightBox,
                                       ListView.builder(
                                         shrinkWrap: true,
                                         physics:
                                             const NeverScrollableScrollPhysics(),
-                                        itemCount: snapshot.hasData
-                                            ? dataList.length
-                                            : 5,
+                                        itemCount: dataList.length,
                                         itemBuilder: (context, index) {
                                           var data = dataList[index];
                                           return Obx(

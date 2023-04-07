@@ -3,9 +3,7 @@ import 'package:admin_kamus_sahu/utils/extension/box_extension.dart';
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
 import 'package:get/get.dart';
-
 import '../../infrastructure/theme/theme.dart';
 import '../../widgets/text_underline.dart';
 import '../../widgets/title_appbar.dart';
@@ -61,7 +59,7 @@ class DetailScreen extends GetView<DetailController> {
                                     ? data['kataIndonesia'].toString()
                                     : data['kataSahu'].toString(),
                                 textStyle: TextStyle(
-                                  fontSize: 18.sp,
+                                  fontSize: 25.sp,
                                   fontWeight: FontWeight.w400,
                                   color: white,
                                 ),
@@ -141,8 +139,10 @@ class DetailScreen extends GetView<DetailController> {
                                                 borderRadius:
                                                     BorderRadius.circular(10)),
                                             child: Padding(
-                                              padding: EdgeInsets.symmetric(
-                                                  vertical: 8, horizontal: 8),
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                      vertical: 8,
+                                                      horizontal: 8),
                                               child: Column(
                                                 children: [
                                                   const Icon(
