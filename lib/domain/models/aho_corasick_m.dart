@@ -1,94 +1,73 @@
 import 'dart:collection';
 
 class TrieNode {
-  // Kelas TrieNode merepresentasikan sebuah node di dalam Trie.
-  final Map<String, TrieNode> children =
-      {}; // Menyimpan child node dengan key berupa karakter.
-  bool isEndOfWord =
-      false; // Menandakan apakah suatu node merupakan akhir dari sebuah kata.
-  List<int> output =
-      []; // Menyimpan indeks dari kata-kata yang cocok dengan pola yang sedang dicari.
+  final Map<String, TrieNode> children = {};
+  bool isEndOfWord = false;
+  List<int> output = [];
 
   TrieNode insert(String word) {
-    // Menambahkan kata ke Trie.
     TrieNode node = this;
     for (int i = 0; i < word.length; i++) {
       String char = word[i];
-      node.children[char] ??=
-          TrieNode(); // Jika belum ada child node dengan key char, buatlah node baru.
+      node.children[char] ??= TrieNode();
       node = node.children[char]!;
     }
-    node.isEndOfWord = true; // Set node terakhir sebagai akhir dari kata.
+    node.isEndOfWord = true;
     return node;
   }
 }
 
 class AhoCorasick {
-  final TrieNode _root = TrieNode(); // Root dari Trie.
+  final TrieNode _root = TrieNode();
 
-  void build(List<String> words) {
-    // Membangun Trie dan failure links.
-    for (String word in words) {
-      _root.insert(word); // Menambahkan kata ke Trie.
+  void build(List<String> patterns) {
+    // Build the Trie and failure links.
+    for (String pattern in patterns) {
+      _root.insert(pattern);
     }
 
-    // Memasukkan semua child node dari root ke queue untuk dihubungkan dengan root sebagai failure link.
+    // Add all child nodes of the root to the queue to be linked to the root as failure links.
     Queue<TrieNode> queue = Queue<TrieNode>();
     for (TrieNode child in _root.children.values) {
-      child.output = [
-        _root.children.length - 1
-      ]; // Set output child node sebagai indeks root - 1.
+      child.output = [_root.children.length - 1];
       queue.add(child);
     }
 
-    // Membangun failure links menggunakan BFS.
+    // Build failure links using BFS.
     while (queue.isNotEmpty) {
-      TrieNode current = queue.removeFirst(); // Ambil node dari queue.
+      TrieNode current = queue.removeFirst();
       for (String char in current.children.keys) {
         TrieNode child = current.children[char]!;
-        queue.add(child); // Tambahkan child node ke queue.
-        TrieNode failure =
-            current; // Inisialisasi failure dengan node saat ini.
-        // Cari failure link dengan mengikuti output link sampai root atau menemukan node dengan child yang cocok.
+        queue.add(child);
+        TrieNode failure = current;
+        // Find failure link by following output link until root or finding a node with a matching child.
         while (failure != _root && !failure.children.containsKey(char)) {
           failure = failure.output.isEmpty
-              ? _root // Jika output kosong, set failure sebagai root.
+              ? _root
               : _root.children[failure.output.first]!;
         }
         if (failure.children.containsKey(char) &&
             failure.children[char] != child) {
-          failure = failure.children[
-              char]!; // Jika node dengan child cocok ditemukan, set failure sebagai node tersebut.
+          failure = failure.children[char]!;
         }
         child.output = failure.isEndOfWord
-            ? [
-                ...failure.output,
-                failure.children.length - 1
-              ] // Jika node failure adalah akhir dari kata, tambahkan indeks ke output.
-            : [
-                ...failure.output
-              ]; // Jika bukan, tambahkan output node failure ke output child node saat ini.
+            ? [...failure.output, failure.children.length - 1]
+            : [...failure.output];
       }
     }
   }
 
   List<int> search(String text) {
-    List<int> results =
-        []; // Menyimpan indeks kata-kata yang cocok dengan pola yang sedang dicari.
+    List<int> results = [];
     TrieNode current = _root;
     for (int i = 0; i < text.length; i++) {
       String char = text[i];
-      // Traversal Trie sampai menemukan node dengan child yang cocok atau kembali ke root
       while (current != _root && !current.children.containsKey(char)) {
-        // Melintasi tautan kegagalan sampai ditemukan anak yang cocok atau sampai mencapai akar trie.
         current = _root.children[current.output.first]!;
       }
       if (current.children.containsKey(char)) {
-        //Mengikuti (child) yang sesuai jika ada
         current = current.children[char]!;
       }
-      // Add any output of the current node to the results
-
       results = [...results, ...current.output.map((index) => i - index)];
     }
     return results;

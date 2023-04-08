@@ -6,8 +6,6 @@ import '../app/controller/aho_corasick.dart';
 import '../infrastructure/theme/theme.dart';
 
 class AppSearch extends StatelessWidget {
-  final AhoCorasickController _ahoC = Get.put(AhoCorasickController());
-
   AppSearch({super.key});
 
   @override
@@ -17,7 +15,7 @@ class AppSearch extends StatelessWidget {
       borderRadius: BorderRadius.circular(14),
       child: TextFormField(
         onChanged: (value) {
-          _ahoC.search(value);
+          // _ahoC.search(value);
         },
         cursorColor: darkBlue,
         decoration: InputDecoration(
