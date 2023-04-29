@@ -1,5 +1,6 @@
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
@@ -11,22 +12,43 @@ class LoginController extends GetxController {
   final GlobalKey<FormState> formKeys = GlobalKey<FormState>();
   TextEditingController emailC = TextEditingController(text: 'admin@gmail.com');
   TextEditingController passC = TextEditingController(text: 'admin12345');
+  FirebaseAuth auth = FirebaseAuth.instance;
 
   void login() async {
-    // Pastikan ada koneksi internet
-    var connectivityResult = await (Connectivity().checkConnectivity());
-    if (connectivityResult == ConnectivityResult.none) {
-      infoFailed(
-          "Tidak ada Internet", "Silahkan periksa koneksi internet Anda");
-      return;
-    }
-    easyLoadingCustom();
-    await EasyLoading.show(status: 'Memuat..');
+    try {
+      var connectivityResult = await (Connectivity().checkConnectivity());
+      if (connectivityResult == ConnectivityResult.none) {
+        infoFailed(
+            "Tidak ada Internet", "Silahkan periksa koneksi internet Anda");
+        return;
+      }
 
-// To hide loading indicator:
-    EasyLoading.dismiss();
-    // Get.offAllNamed(Routes.home);
-    Get.toNamed(Routes.home);
+      try {
+        easyLoadingCustom();
+        await EasyLoading.show(status: 'Memuat..');
+
+        final credential = await auth.signInWithEmailAndPassword(
+          email: emailC.text,
+          password: passC.text,
+        );
+        print(credential);
+
+        EasyLoading.dismiss();
+
+        Get.offAllNamed(Routes.home);
+        EasyLoading.showSuccess('Berhasil Masuk');
+      } on FirebaseAuthException catch (e) {
+        if (e.code == 'user-not-found') {
+          easyLoadingCustomFailed();
+          EasyLoading.showError('Email tidak terdaftar');
+        } else if (e.code == 'wrong-password') {
+          easyLoadingCustomFailed();
+          EasyLoading.showError('Kata sandi salah');
+        }
+      }
+    } catch (e) {
+      infoFailed('Terjadi Kesalahan', 'Tidak dapat masuk');
+    }
   }
 
   void infoFailed(String msg1, String msg2) {
@@ -108,16 +130,31 @@ class LoginController extends GetxController {
   void easyLoadingCustom() {
     EasyLoading.instance
       ..displayDuration = const Duration(seconds: 2)
-      ..indicatorType = EasyLoadingIndicatorType.dualRing
+      ..indicatorType = EasyLoadingIndicatorType.ring
       ..loadingStyle = EasyLoadingStyle.custom
-      ..indicatorSize = 45.0
+      ..indicatorSize = 35.0
       ..radius = 8.0
-      ..progressColor = white
-      ..backgroundColor = shamrockGreen
-      ..indicatorColor = white
+      ..progressColor = shamrockGreen
+      ..backgroundColor = blackC
+      ..indicatorColor = shamrockGreen
       ..textColor = white
       ..textStyle = whiteTextStyle
-      ..maskColor = shamrockGreen.withOpacity(0.10)
+      ..userInteractions = true
+      ..dismissOnTap = false;
+  }
+
+  void easyLoadingCustomFailed() {
+    EasyLoading.instance
+      ..displayDuration = const Duration(seconds: 2)
+      ..indicatorType = EasyLoadingIndicatorType.ring
+      ..loadingStyle = EasyLoadingStyle.custom
+      ..indicatorSize = 35.0
+      ..radius = 8.0
+      ..progressColor = oldRose
+      ..backgroundColor = blackC
+      ..indicatorColor = oldRose
+      ..textColor = white
+      ..textStyle = whiteTextStyle
       ..userInteractions = true
       ..dismissOnTap = false;
   }
