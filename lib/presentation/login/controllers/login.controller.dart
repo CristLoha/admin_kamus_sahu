@@ -1,12 +1,14 @@
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 
+import '../../../infrastructure/navigation/routes.dart';
 import '../../../infrastructure/theme/theme.dart';
 
 class LoginController extends GetxController {
-  final GlobalKey<FormState> formKe1 = GlobalKey<FormState>();
+  final GlobalKey<FormState> formKeys = GlobalKey<FormState>();
   TextEditingController emailC = TextEditingController(text: 'admin@gmail.com');
   TextEditingController passC = TextEditingController(text: 'admin12345');
 
@@ -18,6 +20,13 @@ class LoginController extends GetxController {
           "Tidak ada Internet", "Silahkan periksa koneksi internet Anda");
       return;
     }
+    easyLoadingCustom();
+    await EasyLoading.show(status: 'Memuat..');
+
+// To hide loading indicator:
+    EasyLoading.dismiss();
+    // Get.offAllNamed(Routes.home);
+    Get.toNamed(Routes.home);
   }
 
   void infoFailed(String msg1, String msg2) {
@@ -94,5 +103,22 @@ class LoginController extends GetxController {
         style: whiteTextStyle.copyWith(fontWeight: medium, fontSize: 12),
       ),
     );
+  }
+
+  void easyLoadingCustom() {
+    EasyLoading.instance
+      ..displayDuration = const Duration(seconds: 2)
+      ..indicatorType = EasyLoadingIndicatorType.dualRing
+      ..loadingStyle = EasyLoadingStyle.custom
+      ..indicatorSize = 45.0
+      ..radius = 8.0
+      ..progressColor = white
+      ..backgroundColor = shamrockGreen
+      ..indicatorColor = white
+      ..textColor = white
+      ..textStyle = whiteTextStyle
+      ..maskColor = shamrockGreen.withOpacity(0.10)
+      ..userInteractions = true
+      ..dismissOnTap = false;
   }
 }

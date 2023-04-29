@@ -2,9 +2,9 @@ import 'package:admin_kamus_sahu/infrastructure/theme/theme.dart';
 import 'package:admin_kamus_sahu/presentation/login/controllers/login.controller.dart';
 import 'package:admin_kamus_sahu/utils/extension/box_extension.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-
 import '../../../infrastructure/navigation/routes.dart';
 import '../../../widgets/app_button.dart';
 import '../../../widgets/app_input.dart';
@@ -28,22 +28,31 @@ class FormLogin extends StatelessWidget {
       ),
       child: Padding(
         padding: const EdgeInsets.all(25),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const TittleInput(text: 'Alamat Email'),
-            8.heightBox,
-            AppInput(controller: c.emailC),
-            16.heightBox,
-            const TittleInput(text: 'Kata Sandi'),
-            8.heightBox,
-            AppInput(controller: c.passC),
-            60.heightBox,
-            AppButton(
-              onPressed: () => Get.offAllNamed(Routes.home),
-              text: 'Masuk',
-            ),
-          ],
+        child: Form(
+          key: c.formKeys,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const TittleInput(text: 'Alamat Email'),
+              8.heightBox,
+              AppInput(controller: c.emailC),
+              16.heightBox,
+              const TittleInput(text: 'Kata Sandi'),
+              8.heightBox,
+              AppInput(controller: c.passC),
+              60.heightBox,
+              AppButton(
+                onPressed: () {
+                  if (!c.formKeys.currentState!.validate()) {
+                    return;
+                  }
+
+                  c.login();
+                },
+                text: 'Masuk',
+              ),
+            ],
+          ),
         ),
       ),
     );

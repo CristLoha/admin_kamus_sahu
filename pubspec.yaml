@@ -23,6 +23,7 @@ dependencies:
   flutter_quill: 7.0.3
   just_audio: 0.9.32
   shimmer: 2.0.0
+  flutter_easyloading: 3.0.5
   flutter: 
     sdk: flutter
 
