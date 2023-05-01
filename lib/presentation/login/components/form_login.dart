@@ -4,6 +4,7 @@ import 'package:admin_kamus_sahu/utils/extension/box_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:fluttericon/font_awesome_icons.dart';
 import 'package:get/get.dart';
 import '../../../infrastructure/navigation/routes.dart';
 import '../../../widgets/app_button.dart';
@@ -39,7 +40,22 @@ class FormLogin extends StatelessWidget {
               16.heightBox,
               const TittleInput(text: 'Kata Sandi'),
               8.heightBox,
-              AppInput(controller: c.passC),
+              Obx(() => AppInput(
+                    controller: c.passC,
+                    obscureText: c.isHidden.value,
+                    suffixIcon: IconButton(
+                      onPressed: () => c.isHidden.toggle(),
+                      icon: c.isHidden.isFalse
+                          ? const Icon(
+                              FontAwesome.eye,
+                              color: darkBlue,
+                            )
+                          : const Icon(
+                              FontAwesome.eye_off,
+                              color: darkBlue,
+                            ),
+                    ),
+                  )),
               60.heightBox,
               AppButton(
                 onPressed: () {

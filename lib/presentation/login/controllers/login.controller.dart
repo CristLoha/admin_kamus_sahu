@@ -1,3 +1,4 @@
+import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -13,38 +14,36 @@ class LoginController extends GetxController {
   TextEditingController emailC = TextEditingController(text: 'admin@gmail.com');
   TextEditingController passC = TextEditingController(text: 'admin12345');
   FirebaseAuth auth = FirebaseAuth.instance;
+  RxBool isHidden = false.obs;
 
   void login() async {
+    var connectivityResult = await (Connectivity().checkConnectivity());
+    if (connectivityResult == ConnectivityResult.none) {
+      infoFailed(
+          "Tidak ada Internet", "Silahkan periksa koneksi internet Anda");
+      return;
+    }
+
     try {
-      var connectivityResult = await (Connectivity().checkConnectivity());
-      if (connectivityResult == ConnectivityResult.none) {
-        infoFailed(
-            "Tidak ada Internet", "Silahkan periksa koneksi internet Anda");
-        return;
-      }
+      easyLoadingCustom();
+      await EasyLoading.show(status: 'Memuat..');
 
-      try {
-        easyLoadingCustom();
-        await EasyLoading.show(status: 'Memuat..');
+      final credential = await auth.signInWithEmailAndPassword(
+        email: emailC.text,
+        password: passC.text,
+      );
+      print(credential);
 
-        final credential = await auth.signInWithEmailAndPassword(
-          email: emailC.text,
-          password: passC.text,
-        );
-        print(credential);
+      EasyLoading.dismiss();
 
-        EasyLoading.dismiss();
-
-        Get.offAllNamed(Routes.home);
-        EasyLoading.showSuccess('Berhasil Masuk');
-      } on FirebaseAuthException catch (e) {
-        if (e.code == 'user-not-found') {
-          easyLoadingCustomFailed();
-          EasyLoading.showError('Email tidak terdaftar');
-        } else if (e.code == 'wrong-password') {
-          easyLoadingCustomFailed();
-          EasyLoading.showError('Kata sandi salah');
-        }
+      Get.offAllNamed(Routes.home);
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'user-not-found') {
+        easyLoadingCustomFailed();
+        EasyLoading.showError('Email tidak terdaftar');
+      } else if (e.code == 'wrong-password') {
+        easyLoadingCustomFailed();
+        EasyLoading.showError('Kata sandi salah');
       }
     } catch (e) {
       infoFailed('Terjadi Kesalahan', 'Tidak dapat masuk');
@@ -57,7 +56,7 @@ class LoginController extends GetxController {
       "",
       backgroundColor: oldRose,
       colorText: white,
-      snackPosition: SnackPosition.BOTTOM,
+      snackPosition: SnackPosition.TOP,
       margin: const EdgeInsets.all(0),
       borderRadius: 0,
       duration: const Duration(seconds: 4),
@@ -157,5 +156,19 @@ class LoginController extends GetxController {
       ..textStyle = whiteTextStyle
       ..userInteractions = true
       ..dismissOnTap = false;
+  }
+
+  void awesomeDialogSuccess(String title, String desc) {
+    AwesomeDialog(
+      context: Get.context!,
+      dialogType: DialogType.success,
+      animType: AnimType.bottomSlide,
+      title: title,
+      desc: desc,
+      btnOkText: 'Oke',
+      btnOkOnPress: () {
+        Get.back();
+      },
+    ).show();
   }
 }

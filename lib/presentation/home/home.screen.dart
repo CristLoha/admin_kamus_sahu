@@ -13,11 +13,9 @@ class HomeScreen extends GetView<HomeController> {
   Widget build(BuildContext context) {
     return GetBuilder<StatusBarController>(
       init: StatusBarController(),
-      builder: (controller) {
-        // Memanggil method changeStatusBarColor dan changeNavigationBarColor
-        // pada saat widget dibuild untuk pertama kalinya
-        controller.changeStatusBarColor(darkGreen);
-        controller.changeNavigationBarColor(Colors.black);
+      builder: (c) {
+        c.changeStatusBarColor(darkGreen);
+        c.changeNavigationBarColor(Colors.black);
         return Scaffold(
             backgroundColor: offWhite,
             appBar: AppBar(
@@ -30,10 +28,8 @@ class HomeScreen extends GetView<HomeController> {
               ),
               actions: [
                 IconButton(
-                  icon: const Icon(EvaIcons.searchOutline),
-                  onPressed: () {
-                    // kode untuk menampilkan halaman pencarian di sini
-                  },
+                  icon: const Icon(Icons.logout),
+                  onPressed: () => controller.logout(),
                 ),
               ],
             ),

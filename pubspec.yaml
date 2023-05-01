@@ -25,6 +25,8 @@ dependencies:
   shimmer: 2.0.0
   flutter_easyloading: 3.0.5
   firebase_auth: 4.4.2
+  awesome_dialog: 3.0.2
+  fluttericon: 2.0.0
   flutter: 
     sdk: flutter
 

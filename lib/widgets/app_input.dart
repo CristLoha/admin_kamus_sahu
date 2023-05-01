@@ -6,8 +6,8 @@ import '../presentation/tambah_kata/controllers/tambah_kata.controller.dart';
 
 class AppInput extends StatelessWidget {
   final TextEditingController? controller;
-
   final Widget? prefixIcon;
+  Widget? suffixIcon;
   final bool? obscureText;
 
   final TambahKataController c = Get.put(TambahKataController());
@@ -15,6 +15,7 @@ class AppInput extends StatelessWidget {
     Key? key,
     this.controller,
     this.prefixIcon,
+    this.suffixIcon,
     this.obscureText,
   }) : super(key: key);
 
@@ -36,6 +37,7 @@ class AppInput extends StatelessWidget {
       decoration: InputDecoration(
         contentPadding: const EdgeInsets.only(left: 10, bottom: 20),
         prefixIcon: prefixIcon,
+        suffixIcon: suffixIcon,
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(14),
           borderSide: const BorderSide(

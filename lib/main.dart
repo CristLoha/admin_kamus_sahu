@@ -28,12 +28,17 @@ class Main extends StatelessWidget {
       minTextAdapt: true,
       splitScreenMode: true,
       builder: (context, child) {
-        return GetMaterialApp(
-          builder: EasyLoading.init(),
-          debugShowCheckedModeBanner: false,
-          initialRoute: initialRoute,
-          getPages: Nav.routes,
-        );
+        return StreamBuilder<Object>(
+            stream: null,
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {}
+              return GetMaterialApp(
+                builder: EasyLoading.init(),
+                debugShowCheckedModeBanner: false,
+                initialRoute: initialRoute,
+                getPages: Nav.routes,
+              );
+            });
       },
     );
   }
