@@ -14,7 +14,8 @@ class PopMenuButtonList extends StatelessWidget {
   });
 
   final HewanController c;
-  final QueryDocumentSnapshot<Object?> d;
+  final DocumentSnapshot<Object?>
+      d; // Ganti tipe data dari d menjadi DocumentSnapshot<Object?>
 
   @override
   Widget build(BuildContext context) {

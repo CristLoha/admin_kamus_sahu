@@ -27,6 +27,7 @@ dependencies:
   firebase_auth: 4.4.2
   awesome_dialog: 3.0.2
   fluttericon: 2.0.0
+  rxdart: 0.27.7
   flutter: 
     sdk: flutter
 

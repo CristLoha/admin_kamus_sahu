@@ -5,7 +5,7 @@ class TrieNode {
   bool isEndOfWord = false;
   List<int> output = [];
 
-  TrieNode insert(String word) {
+  TrieNode insert(String word, int patternIndex) {
     TrieNode node = this;
     for (int i = 0; i < word.length; i++) {
       String char = word[i];
@@ -13,6 +13,7 @@ class TrieNode {
       node = node.children[char]!;
     }
     node.isEndOfWord = true;
+    node.output.add(patternIndex);
     return node;
   }
 }
@@ -22,14 +23,14 @@ class AhoCorasick {
 
   void build(List<String> patterns) {
     // Build the Trie and failure links.
-    for (String pattern in patterns) {
-      _root.insert(pattern);
+    for (int i = 0; i < patterns.length; i++) {
+      _root.insert(patterns[i], i);
     }
 
     // Add all child nodes of the root to the queue to be linked to the root as failure links.
     Queue<TrieNode> queue = Queue<TrieNode>();
     for (TrieNode child in _root.children.values) {
-      child.output = [_root.children.length - 1];
+      child.output = [];
       queue.add(child);
     }
 
@@ -51,7 +52,7 @@ class AhoCorasick {
           failure = failure.children[char]!;
         }
         child.output = failure.isEndOfWord
-            ? [...failure.output, failure.children.length - 1]
+            ? [...failure.output, ...child.output]
             : [...failure.output];
       }
     }
