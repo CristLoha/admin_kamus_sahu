@@ -73,24 +73,6 @@ class HewanScreen extends GetView<HewanController> {
 
                                   _ahoC.initAhoCorasickWithSnapshot(
                                       dataList, controller.isSahu.value);
-                                  String removeUnderscore(String text) {
-                                    if (text.startsWith('_')) {
-                                      return text.substring(1);
-                                    }
-                                    return text;
-                                  }
-
-                                  if (!controller.isSahu.value) {
-                                    dataList.sort((a, b) =>
-                                        removeUnderscore(a['kataIndonesia'])
-                                            .compareTo(removeUnderscore(
-                                                b['kataIndonesia'])));
-                                  } else {
-                                    dataList.sort((a, b) => removeUnderscore(
-                                            a['kataSahu'])
-                                        .compareTo(
-                                            removeUnderscore(b['kataSahu'])));
-                                  }
 
                                   return Column(
                                     children: [

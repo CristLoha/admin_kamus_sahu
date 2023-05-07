@@ -26,7 +26,6 @@ class HewanController extends GetxController {
   }
 
   FirebaseFirestore firestore = FirebaseFirestore.instance;
-
   Stream<FilteredQuerySnapshot<Map<String, dynamic>>> getHewan() {
     CollectionReference layanan = firestore.collection('kamus');
     Stream<QuerySnapshot> stream =
@@ -34,7 +33,6 @@ class HewanController extends GetxController {
 
     // Konversi searchText menjadi Stream
     Stream<String> searchTextStream = searchText.subject.stream.startWith('');
-
     Stream<FilteredQuerySnapshot<Map<String, dynamic>>> transformedStream =
         rxdart.Rx.combineLatest2<QuerySnapshot, String,
             FilteredQuerySnapshot<Map<String, dynamic>>>(
@@ -46,11 +44,21 @@ class HewanController extends GetxController {
                 snapshot.docs
                     .cast<QueryDocumentSnapshot<Map<String, dynamic>>>(),
                 searchText);
+
+        filteredDataList = sortDataList(filteredDataList, isSahu.value);
+
         return FilteredQuerySnapshot(filteredDataList, snapshot.metadata);
       },
     );
 
     return transformedStream;
+  }
+
+  String removeUnderscore(String text) {
+    if (text.startsWith('_')) {
+      return text.substring(1);
+    }
+    return text;
   }
 
   List<QueryDocumentSnapshot<Map<String, dynamic>>>
@@ -94,6 +102,24 @@ class HewanController extends GetxController {
     }
 
     return filteredDataList;
+  }
+
+  List<QueryDocumentSnapshot<Map<String, dynamic>>> sortDataList(
+      List<QueryDocumentSnapshot<Map<String, dynamic>>> dataList,
+      bool sortBySahu) {
+    dataList.sort((a, b) {
+      String aKeyword =
+          sortBySahu ? a.data()['kataSahu'] : a.data()['kataIndonesia'];
+      String bKeyword =
+          sortBySahu ? b.data()['kataSahu'] : b.data()['kataIndonesia'];
+
+      return aKeyword
+          .toString()
+          .toLowerCase()
+          .compareTo(bKeyword.toString().toLowerCase());
+    });
+
+    return dataList;
   }
 
   Future<void> deleteHewan(String id) async {
@@ -142,5 +168,25 @@ class HewanController extends GetxController {
       Get.snackbar('Berhasil', 'Item telah dihapus',
           snackPosition: SnackPosition.BOTTOM);
     }
+  }
+
+  List<QueryDocumentSnapshot<Map<String, dynamic>>> sortDataListByIndonesia(
+      List<QueryDocumentSnapshot<Map<String, dynamic>>> dataList) {
+    dataList.sort((a, b) => a
+        .data()['kataIndonesia']
+        .toString()
+        .toLowerCase()
+        .compareTo(b.data()['kataIndonesia'].toString().toLowerCase()));
+    return dataList;
+  }
+
+  List<QueryDocumentSnapshot<Map<String, dynamic>>> sortDataListBySahu(
+      List<QueryDocumentSnapshot<Map<String, dynamic>>> dataList) {
+    dataList.sort((a, b) => a
+        .data()['kataSahu']
+        .toString()
+        .toLowerCase()
+        .compareTo(b.data()['kataSahu'].toString().toLowerCase()));
+    return dataList;
   }
 }
