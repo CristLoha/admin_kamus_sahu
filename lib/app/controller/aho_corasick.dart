@@ -6,6 +6,44 @@ class AhoCorasickController extends GetxController {
   final FirebaseFirestore firestore = FirebaseFirestore.instance;
   late AhoCorasick ahoC;
 
+  Future<void> build() async {
+    var kamusRef = firestore.collection('kamus');
+    var querySnapshot = await kamusRef.get();
+
+    List<String> patterns = [];
+    for (var doc in querySnapshot.docs) {
+      var kataSahu = doc.data()['kataSahu'];
+      if (kataSahu is String) {
+        patterns.add(kataSahu.toLowerCase());
+      }
+    }
+
+    ahoC = AhoCorasick();
+    ahoC.build(patterns);
+  }
+
+  int searchAndGetResultDuration(String keyword) {
+    List<int> results = ahoC.search(keyword.toLowerCase());
+    return results.length * 10; // misalnya 10 detik per hasil
+  }
+
+  void searchAndShowSnackbar(String keyword) {
+    int resultDuration = searchAndGetResultDuration(keyword);
+    if (resultDuration > 0) {
+      Get.snackbar(
+        'Kata ditemukan',
+        'Kata "$keyword" ditemukan dalam $resultDuration detik',
+        duration: const Duration(seconds: 3),
+      );
+    } else {
+      Get.snackbar(
+        'Kata tidak ditemukan',
+        'Kata "$keyword" tidak ditemukan',
+        duration: const Duration(seconds: 3),
+      );
+    }
+  }
+
   // Inisialisasi Aho Corasick dengan daftar kata
   void init(List<String> patterns) {
     ahoC = AhoCorasick();
@@ -13,9 +51,8 @@ class AhoCorasickController extends GetxController {
   }
 
   // Mencari kata dalam teks menggunakan Aho Corasick
-  List<int> search(String searchText) {
-    List<int> results = ahoC.search(searchText.toLowerCase());
-    return results;
+  bool search(String keyword, String searchText) {
+    return keyword.toLowerCase().contains(searchText.toLowerCase());
   }
 
   void initAhoCorasickWithSnapshot(

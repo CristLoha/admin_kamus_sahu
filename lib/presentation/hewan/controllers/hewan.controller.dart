@@ -1,10 +1,16 @@
+import 'dart:async';
+
 import 'package:admin_kamus_sahu/infrastructure/theme/theme.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:just_audio/just_audio.dart';
+import 'package:rxdart/rxdart.dart' as rxdart;
+import '../../../app/controller/aho_corasick.dart';
+import '../../../domain/models/filter_snapshot.dart';
 
 class HewanController extends GetxController {
+  final AhoCorasickController _ahoC = Get.put(AhoCorasickController());
+  final searchText = ''.obs;
   var isSahu = true.obs; // initial language is Sahu
   var selectedLanguage = 'Indonesia'.obs;
 
@@ -21,9 +27,73 @@ class HewanController extends GetxController {
 
   FirebaseFirestore firestore = FirebaseFirestore.instance;
 
-  Stream<QuerySnapshot<Object?>> getHewan() {
+  Stream<FilteredQuerySnapshot<Map<String, dynamic>>> getHewan() {
     CollectionReference layanan = firestore.collection('kamus');
-    return layanan.where('kategori', isEqualTo: 'Hewan').snapshots();
+    Stream<QuerySnapshot> stream =
+        layanan.where('kategori', isEqualTo: 'Hewan').snapshots();
+
+    // Konversi searchText menjadi Stream
+    Stream<String> searchTextStream = searchText.subject.stream.startWith('');
+
+    Stream<FilteredQuerySnapshot<Map<String, dynamic>>> transformedStream =
+        rxdart.Rx.combineLatest2<QuerySnapshot, String,
+            FilteredQuerySnapshot<Map<String, dynamic>>>(
+      stream,
+      searchTextStream,
+      (QuerySnapshot snapshot, String searchText) {
+        List<QueryDocumentSnapshot<Map<String, dynamic>>> filteredDataList =
+            filterDataListUsingAhoCorasick(
+                snapshot.docs
+                    .cast<QueryDocumentSnapshot<Map<String, dynamic>>>(),
+                searchText);
+        return FilteredQuerySnapshot(filteredDataList, snapshot.metadata);
+      },
+    );
+
+    return transformedStream;
+  }
+
+  List<QueryDocumentSnapshot<Map<String, dynamic>>>
+      filterDataListUsingAhoCorasick(
+          List<QueryDocumentSnapshot<Map<String, dynamic>>> dataList,
+          String searchText) {
+    if (searchText.isEmpty) {
+      return dataList;
+    }
+
+    List<QueryDocumentSnapshot<Map<String, dynamic>>> filteredDataList = [];
+    for (var data in dataList) {
+      String keyword = isSahu.value
+          ? (data.data()['kataSahu'] ?? '')
+          : (data.data()['kataIndonesia'] ?? '');
+      if (_ahoC.search(keyword, searchText)) {
+        filteredDataList.add(data);
+      }
+    }
+
+    return filteredDataList;
+  }
+
+  List<QueryDocumentSnapshot<Map<String, dynamic>>> filterDataList(
+      List<QueryDocumentSnapshot<Map<String, dynamic>>> dataList,
+      String searchText) {
+    List<QueryDocumentSnapshot<Map<String, dynamic>>> filteredDataList = [];
+
+    if (searchText.isEmpty) {
+      return dataList;
+    }
+
+    for (var data in dataList) {
+      String keyword = isSahu.value
+          ? (data.data()['kataSahu'] ?? '')
+          : (data.data()['kataIndonesia'] ?? '');
+
+      if (keyword.toLowerCase().contains(searchText.toLowerCase())) {
+        filteredDataList.add(data);
+      }
+    }
+
+    return filteredDataList;
   }
 
   Future<void> deleteHewan(String id) async {

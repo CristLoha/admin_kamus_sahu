@@ -1,21 +1,23 @@
+import 'package:admin_kamus_sahu/presentation/hewan/controllers/hewan.controller.dart';
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
 import '../app/controller/aho_corasick.dart';
 import '../infrastructure/theme/theme.dart';
 
 class AppSearch extends StatelessWidget {
-  AppSearch({super.key});
+  const AppSearch({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final HewanController hewanController = Get.put(HewanController());
+
     return Material(
       elevation: 4,
       borderRadius: BorderRadius.circular(14),
       child: TextFormField(
         onChanged: (value) {
-          // _ahoC.search(value);
+          hewanController.searchText.value = value;
         },
         cursorColor: darkBlue,
         decoration: InputDecoration(
