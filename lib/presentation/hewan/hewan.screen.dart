@@ -61,9 +61,13 @@ class HewanScreen extends GetView<HewanController> {
                               top: 30,
                               bottom: 10,
                             ),
-                            child: StreamBuilder<FilteredQuerySnapshot>(
-                              stream: controller.getHewan(),
-                              builder: (context, snapshot) {
+                            child: StreamBuilder(
+                              stream: controller.getHewanStream(),
+                              builder: (BuildContext context,
+                                  AsyncSnapshot<
+                                          FilteredQuerySnapshot<
+                                              Map<String, dynamic>>>
+                                      snapshot) {
                                 if (snapshot.hasData) {
                                   var dataList = snapshot.data!.docs
                                       .cast<
@@ -76,7 +80,9 @@ class HewanScreen extends GetView<HewanController> {
 
                                   return Column(
                                     children: [
-                                      ButtonLanguageHewan(),
+                                      ButtonLanguageHewan(
+                                          controller: controller),
+
                                       30.heightBox,
 
                                       /// ini widget yang tadi
@@ -93,74 +99,99 @@ class HewanScreen extends GetView<HewanController> {
                                             controller.filterDataList(dataList,
                                                 controller.searchText.value);
 
+                                        // Urutkan data berdasarkan teks utama (Sahu atau Indonesia) sebelum membangun ListView
+                                        filteredDataList.sort((a, b) {
+                                          String aText = controller.isSahu.value
+                                              ? a['kataSahu'].toString()
+                                              : a['kataIndonesia'].toString();
+                                          String bText = controller.isSahu.value
+                                              ? b['kataSahu'].toString()
+                                              : b['kataIndonesia'].toString();
+                                          aText = aText
+                                              .toLowerCase()
+                                              .replaceAll('_', '');
+                                          bText = bText
+                                              .toLowerCase()
+                                              .replaceAll('_', '');
+                                          return aText.compareTo(bText);
+                                        });
+
                                         if (filteredDataList.isNotEmpty) {
                                           return ListView.builder(
                                             shrinkWrap: true,
                                             physics:
                                                 const NeverScrollableScrollPhysics(),
-                                            itemCount: dataList.length,
+                                            itemCount: filteredDataList.length,
                                             itemBuilder: (context, index) {
-                                              var data = dataList[index];
+                                              var data =
+                                                  filteredDataList[index];
                                               return Obx(
-                                                () => Material(
-                                                  color: white,
-                                                  child: Container(
-                                                    margin:
-                                                        const EdgeInsets.only(
-                                                            bottom: 16),
-                                                    decoration: BoxDecoration(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              20),
-                                                      border: Border.all(
-                                                          color: whisper),
-                                                    ),
-                                                    child: InkWell(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              20),
-                                                      onTap: () {
-                                                        Get.toNamed(
-                                                            Routes.detail,
-                                                            arguments: data);
-                                                      },
-                                                      child: ListTile(
-                                                        trailing:
-                                                            PopMenuButtonList(
-                                                                c: controller,
-                                                                d: data),
-                                                        title: UnderlineText(
-                                                          text: controller
-                                                                  .isSahu.value
-                                                              ? data['kataSahu']
-                                                                  .toString()
-                                                              : data['kataIndonesia']
-                                                                  .toString(),
-                                                          textStyle:
-                                                              const TextStyle(
-                                                            fontSize: 16,
-                                                            fontWeight:
-                                                                FontWeight.w500,
-                                                            color: darkBlue,
+                                                () {
+                                                  // Jika bahasa adalah Sahu, tampilkan kata Sahu terlebih dahulu
+                                                  String primaryText =
+                                                      controller.isSahu.value
+                                                          ? data['kataSahu']
+                                                              .toString()
+                                                          : data['kataIndonesia']
+                                                              .toString();
+                                                  String secondaryText =
+                                                      controller.isSahu.value
+                                                          ? data['kataIndonesia']
+                                                              .toString()
+                                                          : data['kataSahu']
+                                                              .toString();
+                                                  return Material(
+                                                    color: white,
+                                                    child: Container(
+                                                      margin:
+                                                          const EdgeInsets.only(
+                                                              bottom: 16),
+                                                      decoration: BoxDecoration(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(20),
+                                                        border: Border.all(
+                                                            color: whisper),
+                                                      ),
+                                                      child: InkWell(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(20),
+                                                        onTap: () {
+                                                          Get.toNamed(
+                                                              Routes.detail,
+                                                              arguments: data);
+                                                        },
+                                                        child: ListTile(
+                                                          trailing:
+                                                              PopMenuButtonList(
+                                                                  c: controller,
+                                                                  d: data),
+                                                          title: UnderlineText(
+                                                            text: primaryText,
+                                                            textStyle:
+                                                                const TextStyle(
+                                                              fontSize: 16,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w500,
+                                                              color: darkBlue,
+                                                            ),
                                                           ),
-                                                        ),
-                                                        subtitle: UnderlineText(
-                                                          text: controller
-                                                                  .isSahu.value
-                                                              ? data['kataIndonesia']
-                                                                  .toString()
-                                                              : data['kataSahu']
-                                                                  .toString(),
-                                                          textStyle:
-                                                              const TextStyle(
-                                                            color:
-                                                                Colors.blueGrey,
+                                                          subtitle:
+                                                              UnderlineText(
+                                                            text: secondaryText,
+                                                            textStyle:
+                                                                const TextStyle(
+                                                              color: Colors
+                                                                  .blueGrey,
+                                                            ),
                                                           ),
                                                         ),
                                                       ),
                                                     ),
-                                                  ),
-                                                ),
+                                                  );
+                                                },
                                               );
                                             },
                                           );

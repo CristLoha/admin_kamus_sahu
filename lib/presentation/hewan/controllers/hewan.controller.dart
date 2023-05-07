@@ -5,6 +5,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:rxdart/rxdart.dart' as rxdart;
+import 'package:rxdart/rxdart.dart';
 import '../../../app/controller/aho_corasick.dart';
 import '../../../domain/models/filter_snapshot.dart';
 
@@ -13,6 +14,8 @@ class HewanController extends GetxController {
   final searchText = ''.obs;
   var isSahu = true.obs; // initial language is Sahu
   var selectedLanguage = 'Indonesia'.obs;
+  final hewanStream =
+      BehaviorSubject<Stream<FilteredQuerySnapshot<Map<String, dynamic>>>>();
 
   void toggleLanguage() {
     isSahu.value = !isSahu.value; // toggle the language
@@ -22,11 +25,17 @@ class HewanController extends GetxController {
 
   void updateLanguage() {
     toggleLanguage();
-    getHewan();
+    hewanStream.add(getHewanStream());
+  }
+
+  @override
+  void onInit() {
+    super.onInit();
+    hewanStream.add(getHewanStream());
   }
 
   FirebaseFirestore firestore = FirebaseFirestore.instance;
-  Stream<FilteredQuerySnapshot<Map<String, dynamic>>> getHewan() {
+  Stream<FilteredQuerySnapshot<Map<String, dynamic>>> getHewanStream() {
     CollectionReference layanan = firestore.collection('kamus');
     Stream<QuerySnapshot> stream =
         layanan.where('kategori', isEqualTo: 'Hewan').snapshots();
@@ -108,15 +117,16 @@ class HewanController extends GetxController {
       List<QueryDocumentSnapshot<Map<String, dynamic>>> dataList,
       bool sortBySahu) {
     dataList.sort((a, b) {
-      String aKeyword =
-          sortBySahu ? a.data()['kataSahu'] : a.data()['kataIndonesia'];
-      String bKeyword =
-          sortBySahu ? b.data()['kataSahu'] : b.data()['kataIndonesia'];
+      String aSahu = a.data()['kataSahu'];
+      String aIndonesia = a.data()['kataIndonesia'];
+      String bSahu = b.data()['kataSahu'];
+      String bIndonesia = b.data()['kataIndonesia'];
 
-      return aKeyword
-          .toString()
-          .toLowerCase()
-          .compareTo(bKeyword.toString().toLowerCase());
+      if (sortBySahu) {
+        return aSahu.toLowerCase().compareTo(bSahu.toLowerCase());
+      } else {
+        return aIndonesia.toLowerCase().compareTo(bIndonesia.toLowerCase());
+      }
     });
 
     return dataList;

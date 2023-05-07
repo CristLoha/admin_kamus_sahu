@@ -7,9 +7,10 @@ import '../../../infrastructure/theme/theme.dart';
 import '../controllers/hewan.controller.dart';
 
 class ButtonLanguageHewan extends StatelessWidget {
-  final HewanController controller = Get.put(HewanController());
+  final HewanController controller;
 
-  ButtonLanguageHewan({Key? key}) : super(key: key);
+  const ButtonLanguageHewan({Key? key, required this.controller})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
