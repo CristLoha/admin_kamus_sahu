@@ -98,7 +98,7 @@ class HewanScreen extends GetView<HewanController> {
                                       30.heightBox,
 
                                       /// ini widget yang tadi
-                                      AppSearch(),
+                                      const AppSearch(),
                                       30.heightBox,
                                       Obx(() {
                                         // Konversi tipe data menjadi Map<String, dynamic>

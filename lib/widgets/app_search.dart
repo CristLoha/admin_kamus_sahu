@@ -11,6 +11,8 @@ class AppSearch extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final HewanController hewanController = Get.put(HewanController());
+    final AhoCorasickController ahoCorasickController =
+        Get.put(AhoCorasickController());
 
     return Material(
       elevation: 4,
@@ -18,6 +20,7 @@ class AppSearch extends StatelessWidget {
       child: TextFormField(
         onChanged: (value) {
           hewanController.searchText.value = value;
+          ahoCorasickController.showSearchResultMessage(value);
         },
         cursorColor: darkBlue,
         decoration: InputDecoration(

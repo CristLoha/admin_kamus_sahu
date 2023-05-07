@@ -27,20 +27,16 @@ class AhoCorasickController extends GetxController {
     return results.length * 10; // misalnya 10 detik per hasil
   }
 
-  void searchAndShowSnackbar(String keyword) {
-    int resultDuration = searchAndGetResultDuration(keyword);
-    if (resultDuration > 0) {
-      Get.snackbar(
-        'Kata ditemukan',
-        'Kata "$keyword" ditemukan dalam $resultDuration detik',
-        duration: const Duration(seconds: 3),
-      );
-    } else {
-      Get.snackbar(
-        'Kata tidak ditemukan',
-        'Kata "$keyword" tidak ditemukan',
-        duration: const Duration(seconds: 3),
-      );
+  void showSearchResultMessage(String searchText) {
+    if (searchText.isNotEmpty) {
+      int searchDuration = searchAndGetResultDuration(searchText);
+      if (searchDuration > 0) {
+        Get.snackbar(
+          'Hasil Pencarian',
+          'Daftar kata muncul dalam $searchDuration milidetik',
+          duration: const Duration(seconds: 3),
+        );
+      }
     }
   }
 
